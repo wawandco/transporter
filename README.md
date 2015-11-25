@@ -10,7 +10,7 @@ To install Transporter please run `go get -u github.com/wawandco/transporter`, w
 
 - transporter init
 
-  `init` checks for `db` folder and creates this one and the `migrations` folder inside if these doesn't exist, also generates a `config.yml` inside the `db` folder.
+  `init` checks for `db` folder and creates this one and the `migrations` folder inside if these doesn't exist, also generates a `config.yml` file inside `db`.
 
 - transporter create
 
@@ -31,20 +31,16 @@ import "github.com/wawandco/transporter/transporter"
 
 func init(){
   transporter.Register(&Migration{
-    Up:         Up_20151119112619,
-    Down:       Down_20151119112619,
     Identifier: 20151119112619,
+    Up:         func (txn *sql.Tx) {
+      //Here you run your logic for the migration.
+    },
+    Down:       func (txn *sql.Tx) {
+      //Here you run your logic for the migration.
+    },
   })
-}
-
-func Up_20151119112619(txn *transporter.Tx) {
-  //Here you run your logic for the migration.
-}
-
-func Down_20151119112619(txn *transporter.Tx) {
-  //Here you run your logic to rollback the migration.
 }
 ```
 
 #### Copyright
-Fako is Copyright © 2008-2015 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.
+Transporter is Copyright © 2008-2015 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.

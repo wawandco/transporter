@@ -7,6 +7,7 @@ import (
 	"path/filepath"
 	"testing"
 
+	"github.com/codegangsta/cli"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -20,11 +21,12 @@ func init() {
 	}
 
 	os.Setenv("TRANS_TESTING_FOLDER", testingDir)
-	os.Mkdir(testingDir, generatedFilePermissions)
 }
 
 func TestInit(t *testing.T) {
-	Init()
+	setupTestingEnv()
+	context := cli.Context{}
+	Init(&context)
 	base := os.Getenv("TRANS_TESTING_FOLDER")
 
 	files := []string{
@@ -44,4 +46,21 @@ func TestInit(t *testing.T) {
 	assert.Contains(t, string(content), "url")
 	assert.Contains(t, string(content), "driver")
 
+}
+
+func TestInitExistingFolder(t *testing.T) {
+	setupTestingEnv()
+	base := os.Getenv("TRANS_TESTING_FOLDER")
+	os.Mkdir(filepath.Join(base, "db"), generatedFilePermissions)
+
+	context := cli.Context{}
+	Init(&context)
+	isThere, _ := exists(filepath.Join(base, "db", "migrations"))
+	assert.False(t, isThere)
+
+}
+
+func setupTestingEnv() {
+	base := os.Getenv("TRANS_TESTING_FOLDER")
+	os.RemoveAll(filepath.Join(base, "db"))
 }
