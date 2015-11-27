@@ -1,0 +1,4 @@
+# Both postgresql and mysql are set up to use the ubuntu user, have a database called circle_test available
+machine:
+  services:
+    - postgresql

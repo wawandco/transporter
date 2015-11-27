@@ -12,12 +12,16 @@ import (
 )
 
 func init() {
-	gopath := os.Getenv("GOPATH")
-	testingDir := filepath.Join(gopath, "src", "github.com", "wawandco", "transporter", "testing")
-	err := os.RemoveAll(testingDir)
+	testingDir := os.Getenv("TRANS_TESTING_FOLDER")
 
-	if err != nil {
-		fmt.Println(err)
+	if testingDir == "" {
+		gopath := os.Getenv("GOPATH")
+		testingDir := filepath.Join(gopath, "src", "github.com", "wawandco", "transporter", "testing")
+		err := os.RemoveAll(testingDir)
+
+		if err != nil {
+			fmt.Println(err)
+		}
 	}
 
 	os.Setenv("TRANS_TESTING_FOLDER", testingDir)

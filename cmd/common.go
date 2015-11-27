@@ -45,7 +45,13 @@ func exists(path string) (bool, error) {
 func buildConnectionFromConfig() (*sql.DB, error) {
 
 	if os.Getenv("TRANS_TESTING_FOLDER") != "" {
-		return sql.Open("postgres", "user=transporter dbname=transporter sslmode=disable")
+		url := os.Getenv("TEST_DATABASE_URL")
+
+		if url == "" {
+			url = "user=transporter dbname=transporter sslmode=disable"
+		}
+
+		return sql.Open("postgres", url)
 	}
 
 	//TODO: Real connection from config

@@ -2,6 +2,7 @@ package transporter
 
 import (
 	"database/sql"
+	"os"
 	"time"
 )
 
@@ -21,7 +22,11 @@ func CreateMigrationsTable(db *sql.DB) {
 }
 
 func testConnection() (*sql.DB, error) {
-	return sql.Open("postgres", "user=transporter dbname=transporter sslmode=disable")
+	url := os.Getenv("TEST_DATABASE_URL")
+	if url == "" {
+		url = "user=transporter dbname=transporter sslmode=disable"
+	}
+	return sql.Open("postgres", url)
 }
 
 func MigrationIdentifier() int64 {
