@@ -43,19 +43,12 @@ func exists(path string) (bool, error) {
 }
 
 func buildConnectionFromConfig() (*sql.DB, error) {
-
-	if os.Getenv("TRANS_TESTING_FOLDER") != "" {
-		url := os.Getenv("TEST_DATABASE_URL")
-
-		if url == "" {
-			url = "user=transporter dbname=transporter sslmode=disable"
-		}
-
-		return sql.Open("postgres", url)
+	url := os.Getenv("TEST_DATABASE_URL")
+	if url == "" {
+		url = "user=transporter dbname=transporter sslmode=disable"
 	}
 
-	//TODO: Real connection from config
-	return nil, nil
+	return sql.Open("postgres", url)
 }
 
 func cleanTables() {
