@@ -7,9 +7,9 @@ dependencies:
     - echo "skipping dependencies"
     - pwd
     - ls
-    - mkdir -p /usr/local/go_workspace/src/github.com/wawandco/transporter/transporter
-    - cp -R transporter /usr/local/go_workspace/src/github.com/wawandco/transporter/
-    - cp -R cmd /usr/local/go_workspace/github.com/wawandco/transporter/
-    - ls /usr/local/go_workspace/github.com/wawandco/transporter/
-    - ls /usr/local/go_workspace/github.com/wawandco/transporter/transporter
-    - ls /usr/local/go_workspace/github.com/wawandco/transporter/cmd
+    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
+    - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
+    - cp -R cmd /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
+    - ls /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
+    - ls /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/transporter
+    - ls /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/transporter
