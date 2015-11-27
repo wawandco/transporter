@@ -6,8 +6,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/codegangsta/cli"
-	"github.com/stretchr/testify/assert"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
 func TestGenerate(t *testing.T) {

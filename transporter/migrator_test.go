@@ -5,8 +5,8 @@ import (
 	"strconv"
 	"testing"
 
-	_ "github.com/lib/pq"
-	"github.com/stretchr/testify/assert"
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
 var sampleMigrations = []Migration{

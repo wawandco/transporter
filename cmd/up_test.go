@@ -9,10 +9,10 @@ import (
 	"testing"
 	"text/template"
 
-	"gopkg.in/yaml.v2"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v2"
 
-	"github.com/codegangsta/cli"
-	"github.com/stretchr/testify/assert"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 	"github.com/wawandco/transporter/transporter"
 )
 

@@ -8,8 +8,8 @@ import (
 	"path/filepath"
 	"text/template"
 
-	"github.com/codegangsta/cli"
-	"github.com/crufter/copyrecur"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/crufter/copyrecur"
 )
 
 type UpTemplateData struct {

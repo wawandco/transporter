@@ -8,7 +8,7 @@ import (
 	"strings"
 	"text/template"
 
-	_ "github.com/lib/pq"
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/transporter"
 )
 

@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strconv"
 
-	_ "github.com/lib/pq"
-	"gopkg.in/yaml.v1"
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 )
 
 var migrations []Migration
