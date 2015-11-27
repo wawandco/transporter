@@ -2,3 +2,6 @@
 machine:
   services:
     - postgresql
+dependencies:
+  override:
+    - go get ./...
