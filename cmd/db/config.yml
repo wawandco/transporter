@@ -1,3 +1,0 @@
-database:
-  driver: postgres
-  url: user=transporter dbname=transporter sslmode=disable
