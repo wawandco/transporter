@@ -23,6 +23,18 @@ func main() {
 			Usage:   "transporter generate [NAME]",
 			Action:  cmd.Generate,
 		},
+		{
+			Name:    "up",
+			Aliases: []string{},
+			Usage:   "transporter up",
+			Action:  cmd.Up,
+		},
+		{
+			Name:    "down",
+			Aliases: []string{},
+			Usage:   "transporter down",
+			Action:  cmd.Down,
+		},
 	}
 
 	app.Run(os.Args)

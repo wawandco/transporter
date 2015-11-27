@@ -113,6 +113,31 @@ func TestRunMigrationDown(t *testing.T) {
 	assert.Equal(t, 0, count)
 }
 
+func TestRunOneMigrationDown(t *testing.T) {
+	dropTables()
+	createMigrationsTable()
+	db, _ := testConnection()
+	defer db.Close()
+	migrations = []Migration{}
+
+	m := sampleMigrations[0]
+	Register(m)
+	RunMigrationUp(db, &m)
+	RunOneMigrationDown(db)
+
+	_, err := db.Exec("Select * from tests_table;")
+	assert.NotNil(t, err)
+
+	rows, _ := db.Query("Select * from " + MigrationsTable + ";")
+	count := 0
+	defer rows.Close()
+	for rows.Next() {
+		count++
+	}
+
+	assert.Equal(t, 0, count)
+}
+
 func TestRunAllMigrationsUp(t *testing.T) {
 	dropTables()
 	createMigrationsTable()
@@ -143,15 +168,15 @@ func TestRunAllMigrationsOnlyPending(t *testing.T) {
 	createMigrationsTable()
 	migrations = []Migration{}
 
+	db, _ := testConnection()
+	defer db.Close()
+
 	Register(sampleMigrations[0])
 	Register(sampleMigrations[1])
 
-	db, _ := testConnection()
 	db.Query("INSERT INTO " + MigrationsTable + " VALUES (" + sampleMigrations[1].GetID() + ");")
 	RunAllMigrationsUp(db)
 
-	defer db.Close()
 	_, err := db.Query("Select other from tests_table;")
 	assert.NotNil(t, err)
-
 }

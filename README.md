@@ -17,7 +17,11 @@ To install Transporter please run `go get -u github.com/wawandco/transporter`, w
   `generate` creates a migration inside the `db/migrations` folder.
 
 - transporter up
+  `up` runs all pending migrations inside the `db/migrations` folder.
+
 - transporter down
+
+  `down` runs last migration down.
 
 #### Migrations
 

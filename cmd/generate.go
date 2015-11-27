@@ -20,7 +20,7 @@ var migrationTPL = `
 package migrations
 import (
   "database/sql"
-  "github.com/wawandco/transporter"
+  "github.com/wawandco/transporter/transporter"
 )
 
 func init(){
@@ -31,7 +31,7 @@ func init(){
     },
     Down: func(tx *sql.Tx){
       //you can use here tx.Exec to change your DB down
-    }
+    },
   }
 
   //Register the migration to run up or down acordingly.
