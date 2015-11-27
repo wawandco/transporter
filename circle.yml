@@ -6,5 +6,6 @@ dependencies:
   override:
     - echo "skipping dependencies"
     - pwd
-    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
-    - cp -R . /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
+    - ls
+    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/transporter
+    - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/transporter
