@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
 	"strings"
 	"text/template"
 
@@ -94,4 +95,17 @@ func replaceInFile(file, base, replacement string) {
 	if err != nil {
 		log.Fatalln(err)
 	}
+}
+
+func setupTestingEnv() {
+	base := os.Getenv("TRANS_TESTING_FOLDER")
+	if base == "" {
+		gopath := os.Getenv("GOPATH")
+		base = filepath.Join(gopath, "src", "github.com", "wawandco", "transporter", "testing")
+
+		os.Setenv("TRANS_TESTING_FOLDER", base)
+		os.RemoveAll(base)
+	}
+
+	os.Mkdir(base, generatedFilePermissions)
 }

@@ -41,11 +41,8 @@ func init(){
 
 //Generate generates a migration on the migrations folder
 func Generate(c *cli.Context) {
-	base := ""
-	if os.Getenv("TRANS_TESTING_FOLDER") != "" {
-		base = os.Getenv("TRANS_TESTING_FOLDER")
-		os.Mkdir(base, generatedFilePermissions)
-	}
+	setupTestingEnv()
+	base := os.Getenv("TRANS_TESTING_FOLDER")
 
 	name := "migration"
 	if c.App != nil && len(c.Args()) > 0 {
@@ -69,6 +66,7 @@ func Generate(c *cli.Context) {
 
 	err := ioutil.WriteFile(path, buff.Bytes(), generatedFilePermissions)
 	if err != nil {
+		log.Println(err)
 		log.Println("| Could not write migration file, please check db/migrations folder exists")
 	}
 }

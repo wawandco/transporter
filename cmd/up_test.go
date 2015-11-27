@@ -46,10 +46,9 @@ type TestMig struct {
 }
 
 func TestUp(t *testing.T) {
+	setupTestingEnv()
 	base := os.Getenv("TRANS_TESTING_FOLDER")
 	defer os.RemoveAll(filepath.Join(base, "db", "migrations"))
-
-	setupTestingEnv()
 	cleanTables()
 
 	buildBaseFolders()

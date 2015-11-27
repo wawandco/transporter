@@ -21,11 +21,8 @@ type Config struct {
 
 // Init creates needed files/folders for transporter to work correctly.
 func Init(ctx *cli.Context) {
-	base := ""
-	if os.Getenv("TRANS_TESTING_FOLDER") != "" {
-		base = os.Getenv("TRANS_TESTING_FOLDER")
-		os.Mkdir(base, generatedFilePermissions)
-	}
+	base := os.Getenv("TRANS_TESTING_FOLDER")
+	os.Mkdir(base, generatedFilePermissions)
 
 	if isThere, _ := exists(filepath.Join(base, "db")); isThere {
 		log.Println("| db folder already exists")

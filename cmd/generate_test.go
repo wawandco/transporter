@@ -12,13 +12,12 @@ import (
 
 func TestGenerate(t *testing.T) {
 	setupTestingEnv()
-
 	base := os.Getenv("TRANS_TESTING_FOLDER")
-	os.Mkdir(filepath.Join(base), generatedFilePermissions)
-	os.Mkdir(filepath.Join(base, "db"), generatedFilePermissions)
-	os.Mkdir(filepath.Join(base, "db", "migrations"), generatedFilePermissions)
+	os.RemoveAll(base)
+	os.Mkdir(base, generatedFilePermissions)
 
 	var context = cli.Context{}
+	Init(&context)
 	Generate(&context)
 
 	files, _ := ioutil.ReadDir(filepath.Join(base, "db", "migrations"))
@@ -33,6 +32,7 @@ func TestGenerate(t *testing.T) {
 
 func TestGenerateWithoutFolder(t *testing.T) {
 	setupTestingEnv()
+
 	var context = cli.Context{}
 
 	assert.NotPanics(t, func() {
