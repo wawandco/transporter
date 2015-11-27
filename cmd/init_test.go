@@ -10,6 +10,11 @@ import (
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 )
 
+func init() {
+	cleanTables()
+	setupTestingEnv()
+}
+
 func TestInit(t *testing.T) {
 	setupTestingEnv()
 	context := cli.Context{}
