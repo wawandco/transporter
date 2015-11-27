@@ -10,3 +10,4 @@ dependencies:
     - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/transporter
     - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
     - cp -R cmd /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
+    - ls /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
