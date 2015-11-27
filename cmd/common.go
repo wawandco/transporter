@@ -54,6 +54,7 @@ func buildConnectionFromConfig() (*sql.DB, error) {
 
 func cleanTables() {
 	db, _ := buildConnectionFromConfig()
+	defer db.Close()
 	db.Exec("DROP TABLE IF EXISTS  " + transporter.MigrationsTable + ";")
 	db.Exec("DROP TABLE IF EXISTS other_table ;")
 	db.Exec("DROP TABLE IF EXISTS down_table ;")

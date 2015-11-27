@@ -128,10 +128,10 @@ func generateTestMigrations(migs []TestMig) {
 func buildTestConfig() {
 	base := os.Getenv("TRANS_TESTING_FOLDER")
 
-	// url := os.Getenv("TEST_DATABASE_URL")
-	// if url == "" {
-	url := "user=transporter dbname=transporter sslmode=disable"
-	// }
+	url := os.Getenv("TEST_DATABASE_URL")
+	if url == "" {
+		url = "user=transporter dbname=transporter sslmode=disable"
+	}
 
 	config := Config{
 		Database: map[string]string{

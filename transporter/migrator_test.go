@@ -147,9 +147,9 @@ func TestRunAllMigrationsUp(t *testing.T) {
 	Register(sampleMigrations[1])
 
 	db, _ := testConnection()
+	// defer db.Close()
 	RunAllMigrationsUp(db)
 
-	defer db.Close()
 	_, err := db.Query("Select other from tests_table;")
 	assert.Nil(t, err)
 

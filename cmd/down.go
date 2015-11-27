@@ -33,6 +33,8 @@ func main() {
 	log.Println("| Running Migrations Down")
 	dat, _ := ioutil.ReadFile(filepath.Join("{{.TempDir}}","config.yml"))
 	db, err := transporter.DBConnection(dat)
+	defer db.Close()
+
 	if err != nil {
 		log.Println("Could not init database connection:", err)
 	}

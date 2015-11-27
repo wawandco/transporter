@@ -37,6 +37,8 @@ func TestDown(t *testing.T) {
 	Down(&context)
 
 	con, _ := buildConnectionFromConfig()
+	defer con.Close()
+	
 	_, err := con.Query("Select a from down_table;")
 	assert.Nil(t, err)
 
