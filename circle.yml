@@ -8,7 +8,7 @@ dependencies:
 
 test:
   pre:
-    - EXPORT GOPATH=/home/ubuntu/.go_workspace
+    - export GOPATH=/home/ubuntu/.go_workspace
     - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
     - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
     - cp -R cmd /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
