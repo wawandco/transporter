@@ -4,4 +4,4 @@ machine:
     - postgresql
 dependencies:
   override:
-    - go get ./...
+    - echo "skipping dependencies"
