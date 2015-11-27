@@ -6,6 +6,14 @@ Transporter is a database migration tool (CLI), it helps you keep your databases
 
 To install Transporter please run `go get -u github.com/wawandco/transporter`, with that, the transporter command should be available.
 
+#### Supported DBMS
+
+Transporter supports the following SBMS's
+
+- postgresql
+- mysql [comming soon]
+- sqlite [comming soon]
+
 #### Commands
 
 - transporter init
