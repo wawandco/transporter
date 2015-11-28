@@ -9,7 +9,8 @@ dependencies:
 test:
   pre:
     - docker-compose build
-    - docker-compose run transporter psql -c "DROP DATABASE IF EXISTS ttest;" -h postgres.local -U postgres
-    - docker-compose run transporter psql -c "CREATE DATABASE ttest;" -h postgres.local -U postgres
+    - docker-compose up
+    - docker-compose run lib psql -c "DROP DATABASE IF EXISTS ttest;" -h postgres.local -U postgres
+    - docker-compose run lib psql -c "CREATE DATABASE ttest;" -h postgres.local -U postgres
   override:
-    - docker-compose run transporter go test ./...
+    - docker-compose run lib go test ./...

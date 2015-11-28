@@ -3,7 +3,7 @@ db:
   environment:
     LC_ALL: C.UTF-8
 
-transporter:
+lib:
   build: .
   links:
     - db:postgres.local
