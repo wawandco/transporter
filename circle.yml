@@ -2,13 +2,14 @@
 machine:
   services:
     - postgresql
-dependencies:
-  override:
-    - echo "skipping dependencies"
 
-test:
-  pre:
-    - export GOPATH=/home/ubuntu/.go_workspace
-    - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
-    - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
-    - cp -R cmd /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
+# dependencies:
+#   override:
+#     - echo "skipping dependencies"
+
+# test:
+#   pre:
+#     - export GOPATH=/home/ubuntu/.go_workspace
+#     - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
+#     - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
+#     - cp -R cmd /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
