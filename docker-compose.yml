@@ -2,11 +2,10 @@ db:
   image: postgres
   environment:
     LC_ALL: C.UTF-8
-    POSTGRES_PASSWORD: 3x1mpl3
 
 transporter:
   build: .
   links:
     - db:postgres.local
   environment:
-    TEST_DATABASE_URL:   "user=postgres dbname=ttest sslmode=disable host=postgres.local password=3x1mpl3" #postgres://:@:5432/ttest
+    TEST_DATABASE_URL:   "user=postgres dbname=ttest sslmode=disable host=postgres.local" #postgres://:@:5432/ttest
