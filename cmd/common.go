@@ -49,6 +49,7 @@ func buildConnectionFromConfig() (*sql.DB, error) {
 		url = "user=transporter dbname=transporter sslmode=disable"
 	}
 
+	log.Println("URL:" + url)
 	return sql.Open("postgres", url)
 }
 

@@ -1,15 +1,15 @@
-# Both postgresql and mysql are set up to use the ubuntu user, have a database called circle_test available
 machine:
   services:
-    - postgresql
+    - docker
 
 dependencies:
   override:
-    - echo "skipping dependencies"
+    - sudo pip install --upgrade docker-compose==1.5.1
 
-# test:
-#   pre:
-#     - export GOPATH=/home/ubuntu/.go_workspace
-#     - mkdir -p /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter
-#     - cp -R transporter /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
-#     - cp -R cmd /home/ubuntu/.go_workspace/src/github.com/wawandco/transporter/
+test:
+  pre:
+    - docker-compose build
+    - docker-compose run transporter psql -c "DROP DATABASE IF EXISTS ttest;" -h postgres.local -U postgres
+    - docker-compose run transporter psql -c "CREATE DATABASE ttest;" -h postgres.local -U postgres
+  override:
+    - docker-compose run transporter go test ./...
