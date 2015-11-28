@@ -3,9 +3,9 @@ machine:
   services:
     - postgresql
 
-# dependencies:
-#   override:
-#     - echo "skipping dependencies"
+dependencies:
+  override:
+    - echo "skipping dependencies"
 
 # test:
 #   pre:
