@@ -1,14 +1,13 @@
 machine:
   services:
     - docker
-
+  post:
+    - sudo pip install --upgrade docker-compose==1.5.1
+    - docker-compose build
 dependencies:
   override:
-    - sudo pip install --upgrade docker-compose==1.5.1
-
+    - echo 'Skipping'
 test:
-  pre:
-    - docker-compose build
   override:
     - docker-compose run lib psql -c "DROP DATABASE IF EXISTS ttest; CREATE DATABASE ttest;" -h postgres.local -U postgres
     - docker-compose run lib go test ./...
