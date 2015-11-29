@@ -1,31 +1,26 @@
 package cmd
 
 import (
-	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 	"github.com/wawandco/transporter/transporter"
+	"github.com/wawandco/transporter/utils"
 )
 
 func TestDown(t *testing.T) {
-	base := os.Getenv("TRANS_TESTING_FOLDER")
-	defer os.RemoveAll(filepath.Join(base, "db", "migrations"))
+	utils.ClearTestTables()
+	utils.ClearTestMigrations()
+	utils.SetupTestingFolders()
 
-	setupTestingEnv()
-	cleanTables()
-
-	buildBaseFolders()
-	buildTestConfig()
-	generateTestMigrations([]TestMig{
-		TestMig{
+	utils.GenerateMigrationFiles([]utils.TestMigration{
+		utils.TestMigration{
 			Identifier:  transporter.MigrationIdentifier(),
 			UpCommand:   "Create table down_table (a varchar(255) );",
 			DownCommand: "Drop table down_table;",
 		},
-		TestMig{
+		utils.TestMigration{
 			Identifier:  transporter.MigrationIdentifier(),
 			UpCommand:   "Alter table down_table add column o varchar(12);",
 			DownCommand: "Alter table down_table drop column o;",
@@ -36,9 +31,9 @@ func TestDown(t *testing.T) {
 	Up(&context)
 	Down(&context)
 
-	con, _ := buildConnectionFromConfig()
+	con, _ := utils.BuildConnectionFromConfig()
 	defer con.Close()
-	
+
 	_, err := con.Query("Select a from down_table;")
 	assert.Nil(t, err)
 

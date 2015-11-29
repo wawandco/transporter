@@ -8,10 +8,11 @@ import (
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/wawandco/transporter/utils"
 )
 
 func init() {
-	cleanTables()
+	utils.ClearTestTables()
 	setupTestingEnv()
 }
 

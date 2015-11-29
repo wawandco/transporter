@@ -5,9 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-	"path/filepath"
-	"strings"
-	"text/template"
+	"os/exec"
 
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/transporter"
@@ -43,71 +41,24 @@ func exists(path string) (bool, error) {
 	return true, nil
 }
 
-func buildConnectionFromConfig() (*sql.DB, error) {
-	url := os.Getenv("TEST_DATABASE_URL")
-	if url == "" {
-		url = "user=transporter dbname=transporter sslmode=disable"
-	}
-
-	log.Println("URL:" + url)
-	return sql.Open("postgres", url)
-}
-
-func cleanTables() {
-	db, _ := buildConnectionFromConfig()
-	defer db.Close()
-	db.Exec("DROP TABLE IF EXISTS  " + transporter.MigrationsTable + ";")
-	db.Exec("DROP TABLE IF EXISTS other_table ;")
-	db.Exec("DROP TABLE IF EXISTS down_table ;")
-}
-
-func writeTemplateToFile(path string, t *template.Template, data interface{}) (string, error) {
-	f, e := os.Create(path)
-	if e != nil {
-		return "", e
-	}
-	defer f.Close()
-
-	e = t.Execute(f, data)
-	if e != nil {
-		return "", e
-	}
-
-	return f.Name(), nil
-}
-
-func replaceInFile(file, base, replacement string) {
-
-	input, err := ioutil.ReadFile(file)
-	if err != nil {
-		log.Fatalln(err)
-	}
-
-	lines := strings.Split(string(input), "\n")
-
-	for i, line := range lines {
-		if line == base {
-			lines[i] = replacement
-		}
-	}
-
-	output := strings.Join(lines, "\n")
-	err = ioutil.WriteFile(file, []byte(output), 0644)
-
-	if err != nil {
-		log.Fatalln(err)
-	}
-}
-
 func setupTestingEnv() {
 	base := os.Getenv("TRANS_TESTING_FOLDER")
-	if base == "" {
-		gopath := os.Getenv("GOPATH")
-		base = filepath.Join(gopath, "src", "github.com", "wawandco", "transporter", "testing")
+	os.Mkdir(base, 0777)
+}
 
-		os.Setenv("TRANS_TESTING_FOLDER", base)
-		os.RemoveAll(base)
+func runTempFiles(commandArgs []string) {
+	cmd := exec.Command("go", commandArgs...)
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if e := cmd.Run(); e != nil {
+		log.Fatal("`go run` failed: ", e)
 	}
+}
 
-	os.Mkdir(base, generatedFilePermissions)
+func buildTempFolder() string {
+	temp, e := ioutil.TempDir("", "transporter")
+	if e != nil {
+		log.Fatal(e)
+	}
+	return temp
 }

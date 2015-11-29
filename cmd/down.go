@@ -6,14 +6,15 @@ import (
 	"text/template"
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
+	"github.com/wawandco/transporter/utils"
 )
 
 func Down(ctx *cli.Context) {
 	temp := buildTempFolder()
 	defer os.RemoveAll(temp)
 
-	commandArgs := copyMigrationFiles(temp)
-	main, _ := writeTemplateToFile(filepath.Join(temp, "main.go"), downTemplate, UpTemplateData{TempDir: temp})
+	commandArgs := utils.CopyMigrationFilesTo(temp)
+	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), downTemplate, UpTemplateData{TempDir: temp})
 
 	commandArgs = append(commandArgs, main)
 	runTempFiles(commandArgs)
