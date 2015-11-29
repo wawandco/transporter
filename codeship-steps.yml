@@ -1,0 +1,2 @@
+- service: transporter
+  command: bash -c "go test ./... -v"
