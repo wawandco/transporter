@@ -165,7 +165,6 @@ func DBConnection(ymlFile []byte) (*sql.DB, error) {
 		return nil, err
 	}
 
-	log.Println("URL:" + config.Database["url"])
 	return sql.Open(config.Database["driver"], config.Database["url"])
 }
 

@@ -28,7 +28,7 @@ func TestUp(t *testing.T) {
 	context := cli.Context{}
 	Up(&context)
 
-	con, _ := utils.BuildConnectionFromConfig()
+	con, _ := utils.BuildTestingConnection()
 	_, err := con.Query("Select * from other_table;")
 	assert.Nil(t, err)
 }
@@ -59,7 +59,7 @@ func TestUpBadMigration(t *testing.T) {
 	context := cli.Context{}
 	Up(&context)
 
-	con, _ := utils.BuildConnectionFromConfig()
+	con, _ := utils.BuildTestingConnection()
 	_, err := con.Query("Select a from other_table;")
 	assert.Nil(t, err)
 }

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"database/sql"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strconv"
@@ -23,11 +22,6 @@ type TestMigration struct {
 	DownCommand string
 }
 
-func buildTestingConnection() (*sql.DB, error) {
-	url := os.Getenv("TEST_DATABASE_URL")
-	return sql.Open("postgres", url)
-}
-
 var testingTables = []string{
 	"other_table",
 	"down_table",
@@ -35,7 +29,7 @@ var testingTables = []string{
 }
 
 func ClearTestTables() {
-	conn, _ := buildTestingConnection()
+	conn, _ := BuildTestingConnection()
 	defer conn.Close()
 
 	for _, t := range testingTables {
@@ -87,12 +81,7 @@ func GenerateMigrationFile(mig TestMigration) {
 	ioutil.WriteFile(path, buff.Bytes(), 0777)
 }
 
-func BuildConnectionFromConfig() (*sql.DB, error) {
+func BuildTestingConnection() (*sql.DB, error) {
 	url := os.Getenv("TEST_DATABASE_URL")
-	if url == "" {
-		url = "user=transporter dbname=transporter sslmode=disable"
-	}
-
-	log.Println("URL:" + url)
 	return sql.Open("postgres", url)
 }
