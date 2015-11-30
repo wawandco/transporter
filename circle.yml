@@ -15,7 +15,8 @@ dependencies:
     - cp -R ./utils $TRANSPORTER_DEP_FOLDER/utils
     - cp -R ./cmd $TRANSPORTER_DEP_FOLDER/cmd
     - cp -R ./transporter $TRANSPORTER_DEP_FOLDER/transporter
+    
 
 test:
   override:
-    - go test ./...
+    - go test ./... -v
