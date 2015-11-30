@@ -1,14 +1,16 @@
 machine:
-  pre:
-    - sudo pip install --upgrade docker-compose==1.5.1
+  environment:
+    TRANS_TESTING_FOLDER: "/go/src/testing"
+    TEST_DATABASE_URL:   "user=ubuntu dbname=circle_test sslmode=disable"
   services:
-    - docker
+    - postgresql
 
 dependencies:
   override:
+    - pwd
+    - ls
     - echo 'Skipping'
+
 test:
   override:
     - docker-compose build
-    - docker-compose run lib psql -c "DROP DATABASE IF EXISTS ttest; CREATE DATABASE ttest;" -h postgres.local -U postgres
-    - docker-compose run lib go test ./...
