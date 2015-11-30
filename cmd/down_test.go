@@ -39,10 +39,6 @@ func TestDown(t *testing.T) {
 	log.Println(err)
 	assert.Nil(t, err)
 
-	_, err = con.Query("Select o from down_table;")
-	log.Println(err)
-	assert.NotNil(t, err)
-
 	Down(&context)
 
 	_, err = con.Query("Select a from down_table;")
