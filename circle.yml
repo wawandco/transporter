@@ -20,8 +20,8 @@ dependencies:
 
 test:
   pre:
-    - psql -c "DROP TABLE IF EXISTS other_table;" -U ubuntu
-    - psql -c "DROP TABLE IF EXISTS transporter_migrations;" -U ubuntu
-    - psql -c "DROP TABLE IF EXISTS down_table;" -U ubuntu
+    - psql -c "DROP TABLE IF EXISTS other_table;" -U ubuntu -d circle_test
+    - psql -c "DROP TABLE IF EXISTS transporter_migrations;" -U ubuntu -d circle_test
+    - psql -c "DROP TABLE IF EXISTS down_table;" -U ubuntu -d circle_test
   override:
     - go test ./... -v
