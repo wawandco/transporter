@@ -7,12 +7,12 @@ import (
 
 func init(){
   migration := transporter.Migration{
-    Identifier: 1448759835115592405,
+    Identifier: 1448894371991459451,
     Up: func(tx *sql.Tx){
-      tx.Exec("Create table down_table (a varchar(255) );")
+      tx.Exec("Alter table down_table add column o varchar(12);")
     },
     Down: func(tx *sql.Tx){
-      tx.Exec("Drop table down_table;")
+      tx.Exec("Alter table down_table drop column o;")
     },
   }
 

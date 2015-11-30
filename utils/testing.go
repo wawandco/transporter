@@ -39,7 +39,7 @@ func ClearTestTables() {
 
 func ClearTestMigrations() {
 	base := os.Getenv("TRANS_TESTING_FOLDER")
-	defer os.RemoveAll(filepath.Join(base, "db", "migrations"))
+	os.RemoveAll(filepath.Join(base, "db"))
 }
 
 func SetupTestingFolders() {
