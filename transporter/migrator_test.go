@@ -43,6 +43,7 @@ func TestRegister(t *testing.T) {
 
 func TestMigrationsTableDoesntExists(t *testing.T) {
 	dropTables()
+	manager = &PostgreSQLManager{}
 	db, err := testConnection()
 	defer db.Close()
 	assert.Nil(t, err)
@@ -52,6 +53,7 @@ func TestMigrationsTableDoesntExists(t *testing.T) {
 func TestMigrationsTableExists(t *testing.T) {
 	dropTables()
 	createMigrationsTable()
+	manager = &PostgreSQLManager{}
 	db, err := testConnection()
 	defer db.Close()
 
@@ -62,10 +64,12 @@ func TestMigrationsTableExists(t *testing.T) {
 func TestRunMigrationUp(t *testing.T) {
 	dropTables()
 	createMigrationsTable()
+
 	db, _ := testConnection()
 	defer db.Close()
 
 	m := sampleMigrations[0]
+	manager = &PostgreSQLManager{}
 
 	RunMigrationUp(db, &m)
 	_, err := db.Exec("Select * from tests_table;")
@@ -92,6 +96,7 @@ func TestRunMigrationDown(t *testing.T) {
 	defer db.Close()
 
 	m := sampleMigrations[0]
+	manager = &PostgreSQLManager{}
 
 	RunMigrationUp(db, &m)
 	RunMigrationDown(db, &m)
@@ -119,6 +124,7 @@ func TestRunOneMigrationDown(t *testing.T) {
 	db, _ := testConnection()
 	defer db.Close()
 	migrations = []Migration{}
+	manager = &PostgreSQLManager{}
 
 	m := sampleMigrations[0]
 	Register(m)
@@ -142,6 +148,7 @@ func TestRunAllMigrationsUp(t *testing.T) {
 	dropTables()
 	createMigrationsTable()
 	migrations = []Migration{}
+	manager = &PostgreSQLManager{}
 
 	Register(sampleMigrations[0])
 	Register(sampleMigrations[1])
@@ -167,6 +174,7 @@ func TestRunAllMigrationsOnlyPending(t *testing.T) {
 	dropTables()
 	createMigrationsTable()
 	migrations = []Migration{}
+	manager = &PostgreSQLManager{}
 
 	db, _ := testConnection()
 	defer db.Close()
