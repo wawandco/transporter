@@ -36,12 +36,12 @@ func TestDown(t *testing.T) {
 	defer con.Close()
 
 	_, err := con.Query("Select a from down_table;")
-	log.Println(err)
 	assert.Nil(t, err)
 
 	Down(&context)
 
 	_, err = con.Query("Select a from down_table;")
+	log.Println(err)
 	assert.NotNil(t, err)
 
 }
