@@ -11,6 +11,7 @@ dependencies:
     - mkdir -p /home/ubuntu/testing_folder
     - rm -rf $TRANSPORTER_DEP_FOLDER
     - mkdir -p $TRANSPORTER_DEP_FOLDER
+    - cp -R ./Godeps $TRANSPORTER_DEP_FOLDER/Godeps
     - cp -R ./utils $TRANSPORTER_DEP_FOLDER/utils
     - cp -R ./cmd $TRANSPORTER_DEP_FOLDER/cmd
     - cp -R ./transporter $TRANSPORTER_DEP_FOLDER/transporter
