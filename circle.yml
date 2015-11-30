@@ -1,16 +1,15 @@
 machine:
   environment:
-    TRANS_TESTING_FOLDER: "/go/src/testing"
+    TRANS_TESTING_FOLDER: "/home/ubuntu/testing_folder"
     TEST_DATABASE_URL:   "user=ubuntu dbname=circle_test sslmode=disable"
   services:
     - postgresql
 
 dependencies:
   override:
-    - pwd
-    - ls
+    - mkdir -p /home/ubuntu/testing_folder
     - echo 'Skipping'
 
 test:
   override:
-    - docker-compose build
+    - go test ./...
