@@ -1,5 +1,7 @@
 ### Transporter
 
+[![Circle CI](https://circleci.com/gh/wawandco/transporter.svg?style=svg&circle-token=93794e8b2f6b9b594822f00b72284f4928d21056)](https://circleci.com/gh/wawandco/transporter)
+
 Transporter is a database migration tool (CLI), it helps you keep your databases in order by creating migration files, those migration files are Go files that run SQL commands on your database to keep multiple environments databases in sync on its structure.
 
 #### Installation
