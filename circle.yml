@@ -16,8 +16,10 @@ dependencies:
     - cp -R ./utils $TRANSPORTER_DEP_FOLDER/utils
     - cp -R ./cmd $TRANSPORTER_DEP_FOLDER/cmd
     - cp -R ./transporter $TRANSPORTER_DEP_FOLDER/transporter
-    - psql -c "SELECT 1;" -U ubuntu
+
 
 test:
+  pre:
+    - psql -c "SELECT 1;" -U ubuntu
   override:
     - go test ./... -v
