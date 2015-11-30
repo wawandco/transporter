@@ -10,7 +10,9 @@ dependencies:
   override:
     - mkdir -p /home/ubuntu/testing_folder
     - mkdir -p $TRANSPORTER_DEP_FOLDER
-    - cp -R . $TRANSPORTER_DEP_FOLDER
+    - cp -R . $TRANSPORTER_DEP_FOLDER/utils
+    - cp -R . $TRANSPORTER_DEP_FOLDER/cmd
+    - cp -R . $TRANSPORTER_DEP_FOLDER/transporter
 
 test:
   override:
