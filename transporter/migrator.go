@@ -12,6 +12,7 @@ import (
 )
 
 var migrations []Migration
+var manager DatabaseManager
 
 const (
 	// MigrationsTable is the Db table where we will store migrations
@@ -29,7 +30,8 @@ func Register(m Migration) {
 
 // MigrationsTableExists returns true if the table for the migrations already exists.
 func MigrationsTableExists(db *sql.DB) bool {
-	_, err := db.Query("SELECT * FROM " + MigrationsTable)
+	query := manager.AllMigrationsQuery(MigrationsTable)
+	_, err := db.Query(query)
 	return err == nil
 }
 
@@ -78,7 +80,8 @@ func RunMigrationUp(db *sql.DB, m *Migration) error {
 			return errors.New("Could not complete your migration (" + m.GetID() + "), please check your sql.")
 		}
 
-		_, err = db.Exec("INSERT INTO " + MigrationsTable + "( identifier ) VALUES ('" + m.GetID() + "') ;")
+		query := manager.AddMigrationQuery(MigrationsTable, m.GetID())
+		_, err = db.Exec(query)
 		return nil
 	}
 
@@ -101,8 +104,8 @@ func RunMigrationDown(db *sql.DB, m *Migration) error {
 			log.Println("| Error, Could not complete your migration (" + m.GetID() + "), please check your sql.")
 			return errors.New("Could not complete your migration (" + m.GetID() + "), please check your sql.")
 		}
-
-		_, err = db.Exec("DELETE FROM " + MigrationsTable + " WHERE identifier = '" + m.GetID() + "' ;")
+		query := manager.DeleteMigrationQuery(MigrationsTable, m.GetID())
+		_, err = db.Exec(query)
 		return nil
 	}
 
@@ -142,7 +145,8 @@ func RunOneMigrationDown(db *sql.DB) {
 }
 
 func DatabaseVersion(db *sql.DB) string {
-	rows, _ := db.Query("Select max(identifier) from " + MigrationsTable + ";")
+	query := manager.LastMigrationQuery(MigrationsTable)
+	rows, _ := db.Query(query)
 	var identifier string
 	for rows.Next() {
 		rows.Scan(&identifier)
@@ -165,6 +169,7 @@ func DBConnection(ymlFile []byte) (*sql.DB, error) {
 		return nil, err
 	}
 
+	manager = &PostgreSQLManager{}
 	return sql.Open(config.Database["driver"], config.Database["url"])
 }
 
