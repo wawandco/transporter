@@ -1,4 +1,4 @@
-package transporter
+package managers
 
 //PostgreSQLManager is the manager for postgresql DBMS
 type PostgreSQLManager struct{}
@@ -12,7 +12,7 @@ func (man *PostgreSQLManager) DeleteMigrationQuery(tableName string, identifier 
 }
 
 func (man *PostgreSQLManager) AddMigrationQuery(tableName string, identifier string) string {
-	return "INSERT INTO " + tableName + " ( identifier ) VALUES ('" + identifier + "') ;"
+	return "INSERT INTO " + tableName + " ( identifier ) VALUES (" + identifier + ");"
 }
 
 func (man *PostgreSQLManager) DropMigrationsTableQuery(tableName string) string {
@@ -20,7 +20,7 @@ func (man *PostgreSQLManager) DropMigrationsTableQuery(tableName string) string 
 }
 
 func (man *PostgreSQLManager) CreateMigrationsTableQuery(tableName string) string {
-	return "CREATE TABLE IF NOT EXISTS " + tableName + ";"
+	return "CREATE TABLE IF NOT EXISTS " + tableName + " ( identifier decimal NOT NULL );"
 }
 
 func (man *PostgreSQLManager) LastMigrationQuery(tableName string) string {

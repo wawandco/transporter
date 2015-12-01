@@ -8,16 +8,17 @@ import (
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/wawandco/transporter/managers"
 )
 
 var sampleMigrations = []Migration{
 	Migration{
 		Identifier: MigrationIdentifier(),
 		Up: func(tx *sql.Tx) {
-			tx.Exec("Create table tests_table (a varchar);")
+			tx.Exec("CREATE TABLE tests_table (a varchar(12))")
 		},
 		Down: func(tx *sql.Tx) {
-			tx.Exec("Drop table tests_table;")
+			tx.Exec("DROP TABLE tests_table;")
 		},
 	},
 
@@ -32,6 +33,11 @@ var sampleMigrations = []Migration{
 	},
 }
 
+var mans = map[string]managers.DatabaseManager{
+	"postgres": &managers.PostgreSQLManager{},
+	"mysql":    &managers.MySQLManager{},
+}
+
 //TODO: multiple migrations with the same ID
 func TestRegister(t *testing.T) {
 	mig := Migration{
@@ -43,149 +49,168 @@ func TestRegister(t *testing.T) {
 }
 
 func TestMigrationsTableDoesntExists(t *testing.T) {
-	dropTables()
-	manager = &PostgreSQLManager{}
-	db, err := testConnection()
-	defer db.Close()
-	assert.Nil(t, err)
-	assert.False(t, MigrationsTableExists(db))
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+
+		db, err := testConnection(name)
+		defer db.Close()
+		assert.Nil(t, err)
+		assert.False(t, MigrationsTableExists(db))
+	}
 }
 
 func TestMigrationsTableExists(t *testing.T) {
-	dropTables()
-	createMigrationsTable()
-	manager = &PostgreSQLManager{}
-	db, err := testConnection()
-	defer db.Close()
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+		createMigrationsTable(name)
 
-	assert.Nil(t, err)
-	assert.True(t, MigrationsTableExists(db))
+		db, err := testConnection(name)
+		defer db.Close()
+		assert.Nil(t, err)
+		assert.True(t, MigrationsTableExists(db))
+	}
 }
 
 func TestRunMigrationUp(t *testing.T) {
-	dropTables()
-	createMigrationsTable()
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+		createMigrationsTable(name)
 
-	db, _ := testConnection()
-	defer db.Close()
+		db, _ := testConnection(name)
+		defer db.Close()
 
-	m := sampleMigrations[0]
-	manager = &PostgreSQLManager{}
+		m := sampleMigrations[0]
 
-	RunMigrationUp(db, &m)
-	_, err := db.Exec("Select * from tests_table;")
-	assert.Nil(t, err)
-	rows, _ := db.Query("Select * from " + MigrationsTable + ";")
+		RunMigrationUp(db, &m)
+		_, err := db.Exec("Select * from tests_table;")
+		assert.Nil(t, err)
+		rows, _ := db.Query("Select * from " + MigrationsTable + ";")
 
-	count := 0
-	defer rows.Close()
-	for rows.Next() {
-		var identifier string
-		rows.Scan(&identifier)
-		id, _ := strconv.Atoi(identifier)
-		assert.Equal(t, int64(id), m.Identifier)
-		count++
+		count := 0
+		defer rows.Close()
+		for rows.Next() {
+			var identifier string
+			rows.Scan(&identifier)
+			id, _ := strconv.Atoi(identifier)
+			assert.Equal(t, int64(id), m.Identifier)
+			count++
+		}
+
+		assert.Equal(t, 1, count)
 	}
-
-	assert.Equal(t, 1, count)
 }
 
 func TestRunMigrationDown(t *testing.T) {
-	dropTables()
-	createMigrationsTable()
-	db, _ := testConnection()
-	defer db.Close()
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+		createMigrationsTable(name)
 
-	m := sampleMigrations[0]
-	manager = &PostgreSQLManager{}
+		db, _ := testConnection(name)
+		defer db.Close()
 
-	RunMigrationUp(db, &m)
-	RunMigrationDown(db, &m)
+		m := sampleMigrations[0]
 
-	_, err := db.Exec("Select * from tests_table;")
-	assert.NotNil(t, err)
+		RunMigrationUp(db, &m)
+		RunMigrationDown(db, &m)
 
-	rows, _ := db.Query("Select * from " + MigrationsTable + ";")
-	count := 0
-	defer rows.Close()
-	for rows.Next() {
-		var identifier string
-		rows.Scan(&identifier)
-		id, _ := strconv.Atoi(identifier)
-		assert.Equal(t, id, m.Identifier)
-		count++
+		_, err := db.Exec("Select * from tests_table;")
+		assert.NotNil(t, err)
+
+		rows, _ := db.Query("Select * from " + MigrationsTable + ";")
+		count := 0
+		defer rows.Close()
+		for rows.Next() {
+			var identifier string
+			rows.Scan(&identifier)
+			id, _ := strconv.Atoi(identifier)
+			assert.Equal(t, id, m.Identifier)
+			count++
+		}
+
+		assert.Equal(t, 0, count)
 	}
-
-	assert.Equal(t, 0, count)
 }
 
 func TestRunOneMigrationDown(t *testing.T) {
-	dropTables()
-	createMigrationsTable()
-	db, _ := testConnection()
-	defer db.Close()
-	migrations = []Migration{}
-	manager = &PostgreSQLManager{}
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+		createMigrationsTable(name)
 
-	m := sampleMigrations[0]
-	Register(m)
-	RunMigrationUp(db, &m)
-	RunOneMigrationDown(db)
+		db, _ := testConnection(name)
+		defer db.Close()
 
-	_, err := db.Exec("Select * from tests_table;")
-	assert.NotNil(t, err)
+		migrations = []Migration{}
 
-	rows, _ := db.Query("Select * from " + MigrationsTable + ";")
-	count := 0
-	defer rows.Close()
-	for rows.Next() {
-		count++
+		m := sampleMigrations[0]
+		Register(m)
+		RunMigrationUp(db, &m)
+		RunOneMigrationDown(db)
+
+		_, err := db.Exec("Select * from tests_table;")
+		assert.NotNil(t, err)
+
+		rows, _ := db.Query("Select * from " + MigrationsTable + ";")
+		count := 0
+		defer rows.Close()
+		for rows.Next() {
+			count++
+		}
+
+		assert.Equal(t, 0, count)
 	}
-
-	assert.Equal(t, 0, count)
 }
 
 func TestRunAllMigrationsUp(t *testing.T) {
-	dropTables()
-	createMigrationsTable()
-	migrations = []Migration{}
-	manager = &PostgreSQLManager{}
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+		createMigrationsTable(name)
 
-	Register(sampleMigrations[0])
-	Register(sampleMigrations[1])
+		db, _ := testConnection(name)
+		defer db.Close()
 
-	db, _ := testConnection()
-	defer db.Close()
-	RunAllMigrationsUp(db)
+		Register(sampleMigrations[0])
+		Register(sampleMigrations[1])
+		RunAllMigrationsUp(db)
 
-	_, err := db.Query("Select other from tests_table;")
-	assert.Nil(t, err)
+		_, err := db.Query("Select other from tests_table;")
+		assert.Nil(t, err)
 
-	rows, _ := db.Query("Select * from " + MigrationsTable + ";")
-	count := 0
-	defer rows.Close()
-	for rows.Next() {
-		count++
+		rows, _ := db.Query("Select * from " + MigrationsTable + ";")
+		count := 0
+		defer rows.Close()
+		for rows.Next() {
+			count++
+		}
+
+		assert.Equal(t, count, 2)
 	}
-
-	assert.Equal(t, count, 2)
 }
 
 func TestRunAllMigrationsOnlyPending(t *testing.T) {
-	dropTables()
-	createMigrationsTable()
-	migrations = []Migration{}
-	manager = &PostgreSQLManager{}
+	for name, man := range mans {
+		manager = man
+		dropTables(name)
+		createMigrationsTable(name)
 
-	db, _ := testConnection()
-	defer db.Close()
+		db, _ := testConnection(name)
+		defer db.Close()
 
-	Register(sampleMigrations[0])
-	Register(sampleMigrations[1])
+		migrations = []Migration{}
 
-	db.Query("INSERT INTO " + MigrationsTable + " VALUES (" + sampleMigrations[1].GetID() + ");")
-	RunAllMigrationsUp(db)
+		Register(sampleMigrations[0])
+		Register(sampleMigrations[1])
 
-	_, err := db.Query("Select other from tests_table;")
-	assert.NotNil(t, err)
+		db.Query("INSERT INTO " + MigrationsTable + " VALUES (" + sampleMigrations[1].GetID() + ");")
+		RunAllMigrationsUp(db)
+
+		_, err := db.Query("Select other from tests_table;")
+		assert.NotNil(t, err)
+	}
+
 }

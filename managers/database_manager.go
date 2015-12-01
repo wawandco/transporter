@@ -1,4 +1,4 @@
-package transporter
+package managers
 
 //DatabaseManager is an interface defined for the database drivers we will use.
 type DatabaseManager interface {

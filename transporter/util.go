@@ -3,30 +3,30 @@ package transporter
 import (
 	"database/sql"
 	"os"
+	"strings"
 	"time"
 )
 
-func dropTables() {
-	db, _ := testConnection()
+func dropTables(driver string) {
+	db, _ := testConnection(driver)
 	db.Exec("DROP TABLE IF EXISTS  " + MigrationsTable + ";")
 	db.Exec("DROP TABLE IF EXISTS tests_table ;")
 }
 
-func createMigrationsTable() {
-	db, _ := testConnection()
-	db.Exec("CREATE TABLE IF NOT EXISTS  " + MigrationsTable + " ( identifier decimal NOT NULL );")
+func createMigrationsTable(driver string) {
+	db, _ := testConnection(driver)
+	query := manager.CreateMigrationsTableQuery(MigrationsTable)
+	db.Exec(query)
 }
 
 func CreateMigrationsTable(db *sql.DB) {
-	db.Exec("CREATE TABLE IF NOT EXISTS  " + MigrationsTable + " ( identifier decimal NOT NULL );")
+	query := manager.CreateMigrationsTableQuery(MigrationsTable)
+	db.Exec(query)
 }
 
-func testConnection() (*sql.DB, error) {
-	url := os.Getenv("TEST_DATABASE_URL")
-	if url == "" {
-		url = "user=transporter dbname=transporter sslmode=disable"
-	}
-	return sql.Open("postgres", url)
+func testConnection(driver string) (*sql.DB, error) {
+	url := os.Getenv(strings.ToUpper(driver) + "_DATABASE_URL")
+	return sql.Open(driver, url)
 }
 
 func MigrationIdentifier() int64 {
