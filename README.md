@@ -47,10 +47,10 @@ func init(){
   transporter.Register(&Migration{
     Identifier: 20151119112619,
     Up:         func (txn *sql.Tx) {
-      //Here you run your logic for the migration.
+      txn.Exec("ALTER TABLE my_table ADD COLUMN new_column varchar(255);")
     },
     Down:       func (txn *sql.Tx) {
-      //Here you run your logic for the migration.
+      txn.Exec("ALTER TABLE my_table DROP COLUMN new_column;")
     },
   })
 }
