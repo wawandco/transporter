@@ -3,12 +3,22 @@ postgres:
   environment:
     LC_ALL: C.UTF-8
 
+mysql:
+  image: mysql/mysql-server
+  environment:
+    MYSQL_ROOT_PASSWORD:  password
+    MYSQL_DATABASE:       ttest
+    MYSQL_USER:           transporter
+    MYSQL_PASSWORD:       password
+
 lib:
   build: .
   volumes:
     - .:/go/src/github.com/wawandco/transporter
   links:
     - postgres:postgres.local
+    - mysql:mysql.local
   environment:
     TRANS_TESTING_FOLDER: "/go/src/testing"
     TEST_DATABASE_URL:   "user=postgres dbname=ttest sslmode=disable host=postgres.local"
+    MYSQL_DATABASE_URL:  "transporter:password@/ttest"
