@@ -57,17 +57,32 @@ func init(){
 ```
 
 
-#### Migrating your Heroku Database [TODO]
+#### Multiple Environment support
 
-Transporter supports you to add the DATABASE_URL environment variable, if you do, it will take the database connection url from there, otherwise it will take it from your `db/config.yml` file.
+Transporter supports you to have multiple environments on the same application, these could be used to run tests against different databases.
 
-If you need to run your migrations against your heroku database you could simply run:
+By default is only ships with the `development` environment, which will run if you invoke the `up` and `down` commands without any other argument.
 
-```sh
-$ DATABASE_URL=[YOUR_DATABASE_URL] transporter up
+if you need to have multiple environments you could change your `db/config.yml` file as in this example:
+
+
+```yml
+
+development:
+  driver: postgres
+  url: "user=username dbname=my_db_development sslmode=disable"
+
+staging:
+  driver: postgres
+  url: "user=username dbname=my_db_staging"
+
+production:
+  driver: postgres
+  url: "user=username dbname=my_db_production"
+
 ```
 
-And Transporter will run against your heroku database instead of your development one.
+And call `transporter up staging` or `transporter down staging` or any other environment's database you would like to run the migrations against.
 
 
 #### Copyright
