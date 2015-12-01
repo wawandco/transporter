@@ -1,4 +1,4 @@
-db:
+postgres:
   image: postgres
   environment:
     LC_ALL: C.UTF-8
@@ -8,7 +8,7 @@ lib:
   volumes:
     - .:/go/src/github.com/wawandco/transporter
   links:
-    - db:postgres.local
+    - postgres:postgres.local
   environment:
     TRANS_TESTING_FOLDER: "/go/src/testing"
     TEST_DATABASE_URL:   "user=postgres dbname=ttest sslmode=disable host=postgres.local"

@@ -84,6 +84,16 @@ production:
 
 And call `transporter up staging` or `transporter down staging` or any other environment's database you would like to run the migrations against.
 
+#### Developer Setup
+
+To work on this we've set a docker-compose file, you will need to instal docker toolkit in order to run our tests against the docker images.
+
+1. Install docker, docker-compose
+2. run `docker-compose build`
+3. run `./dbsetup.sh` to setup testing databases.
+4. run `docker-compose run lib go test ./... -v` to run the tests.
+
+Ensure you have all the tests passing on the docker-compose machines before pushing into master.
 
 #### Copyright
 Transporter is Copyright © 2008-2015 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.
