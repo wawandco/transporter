@@ -10,11 +10,10 @@ To install Transporter please run `go get -u github.com/wawandco/transporter`, w
 
 #### Supported DBMS
 
-Transporter supports the following SBMS's
+Transporter supports the following DBMS's
 
 - postgresql
 - mysql [comming soon]
-- sqlite [comming soon]
 
 #### Commands
 
