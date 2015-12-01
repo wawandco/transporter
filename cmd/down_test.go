@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"flag"
 	"log"
 	"testing"
 
@@ -28,9 +29,9 @@ func TestDown(t *testing.T) {
 		},
 	})
 
-	context := cli.Context{}
-	Up(&context)
-	Down(&context)
+	context := cli.NewContext(nil, &flag.FlagSet{}, nil)
+	Up(context)
+	Down(context)
 
 	con, _ := utils.BuildTestingConnection()
 	defer con.Close()
@@ -38,7 +39,7 @@ func TestDown(t *testing.T) {
 	_, err := con.Query("Select a from down_table;")
 	assert.Nil(t, err)
 
-	Down(&context)
+	Down(context)
 
 	_, err = con.Query("Select a from down_table;")
 	log.Println(err)

@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"flag"
 	"testing"
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
@@ -25,8 +26,8 @@ func TestUp(t *testing.T) {
 		},
 	})
 
-	context := cli.Context{}
-	Up(&context)
+	context := cli.NewContext(nil, &flag.FlagSet{}, nil)
+	Up(context)
 
 	con, _ := utils.BuildTestingConnection()
 	_, err := con.Query("Select * from other_table;")
@@ -56,8 +57,8 @@ func TestUpBadMigration(t *testing.T) {
 		},
 	})
 
-	context := cli.Context{}
-	Up(&context)
+	context := cli.NewContext(nil, &flag.FlagSet{}, nil)
+	Up(context)
 
 	con, _ := utils.BuildTestingConnection()
 	_, err := con.Query("Select a from other_table;")

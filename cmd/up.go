@@ -14,9 +14,11 @@ func Up(ctx *cli.Context) {
 	temp := buildTempFolder()
 	defer os.RemoveAll(temp)
 
-	environment := ctx.Args()[0]
-	if environment == "" {
+	var environment string
+	if len(ctx.Args()) == 0 || ctx.Args()[0] == "" {
 		environment = "development"
+	} else {
+		environment = ctx.Args()[0]
 	}
 
 	upTemplateData := CmdTemplateData{
