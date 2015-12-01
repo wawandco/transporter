@@ -16,7 +16,7 @@ const (
 
 //Config holds configuration values for transporter
 type Config struct {
-	Database map[string]string
+	environments map[string]map[string]string
 }
 
 // Init creates needed files/folders for transporter to work correctly.
@@ -32,14 +32,14 @@ func Init(ctx *cli.Context) {
 	os.Mkdir(filepath.Join(base, "db"), generatedFilePermissions)
 	os.Mkdir(filepath.Join(base, "db", "migrations"), generatedFilePermissions)
 
-	data := map[string]string{
-		"url":    "$DATABASE_URL",
-		"driver": "$DATABASE_DRIVER",
+	data := map[string]map[string]string{
+		"development": {
+			"url":    "$DATABASE_URL",
+			"driver": "$DATABASE_DRIVER",
+		},
 	}
 
-	config := Config{data}
-	d, _ := yaml.Marshal(&config)
-
+	d, _ := yaml.Marshal(data)
 	filepath := filepath.Join(base, "db", "config.yml")
 	ioutil.WriteFile(filepath, d, generatedFilePermissions)
 }

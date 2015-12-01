@@ -9,17 +9,23 @@ import (
 	"github.com/wawandco/transporter/utils"
 )
 
-type UpTemplateData struct {
-	TempDir string
-}
-
 //Up runs any pending migration.
 func Up(ctx *cli.Context) {
 	temp := buildTempFolder()
 	defer os.RemoveAll(temp)
 
+	environment := ctx.Args()[0]
+	if environment == "" {
+		environment = "development"
+	}
+
+	upTemplateData := CmdTemplateData{
+		TempDir:     temp,
+		Environment: environment, //TODO: this should come from ctx or be development
+	}
+
 	commandArgs := utils.CopyMigrationFilesTo(temp)
-	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), upTemplate, UpTemplateData{TempDir: temp})
+	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), upTemplate, upTemplateData)
 
 	commandArgs = append(commandArgs, main)
 	runTempFiles(commandArgs)
@@ -36,15 +42,16 @@ import (
 )
 
 func main() {
-	log.Println("| Running Migrations UP")
+	log.Println("| Running Migrations UP on [{{.Environment}}] environment")
 	dat, _ := ioutil.ReadFile(filepath.Join("{{.TempDir}}","config.yml"))
-	db, err := transporter.DBConnection(dat)
-	defer db.Close()
+	db, err := transporter.DBConnection(dat, "{{.Environment}}")
 
 	if err != nil {
 		log.Println("Could not init database connection:", err)
+		return
 	}
 
+	defer db.Close()
 	transporter.RunAllMigrationsUp(db)
 }
 `))

@@ -16,8 +16,10 @@ func init() {
 	setupTestingEnv()
 }
 
-func TestInit(t *testing.T) {
+func TestInitCommand(t *testing.T) {
 	setupTestingEnv()
+	utils.ClearTestMigrations()
+
 	context := cli.Context{}
 	Init(&context)
 	base := os.Getenv("TRANS_TESTING_FOLDER")
@@ -35,7 +37,7 @@ func TestInit(t *testing.T) {
 
 	// //Content
 	content, _ := ioutil.ReadFile(files[2])
-	assert.Contains(t, string(content), "database")
+	assert.Contains(t, string(content), "development")
 	assert.Contains(t, string(content), "url")
 	assert.Contains(t, string(content), "driver")
 

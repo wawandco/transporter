@@ -13,8 +13,18 @@ func Down(ctx *cli.Context) {
 	temp := buildTempFolder()
 	defer os.RemoveAll(temp)
 
+	environment := ctx.Args()[0]
+	if environment == "" {
+		environment = "development"
+	}
+
+	downTemplateData := CmdTemplateData{
+		TempDir:     temp,
+		Environment: environment,
+	}
+
 	commandArgs := utils.CopyMigrationFilesTo(temp)
-	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), downTemplate, UpTemplateData{TempDir: temp})
+	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), downTemplate, downTemplateData)
 
 	commandArgs = append(commandArgs, main)
 	runTempFiles(commandArgs)
@@ -31,15 +41,17 @@ import (
 )
 
 func main() {
-	log.Println("| Running Migrations Down")
+	log.Println("| Running Migrations Down on [{{.Environment}}] environment")
 	dat, _ := ioutil.ReadFile(filepath.Join("{{.TempDir}}","config.yml"))
-	db, err := transporter.DBConnection(dat)
-	defer db.Close()
+	db, err := transporter.DBConnection(dat, "{{.Environment}}")
+
 
 	if err != nil {
 		log.Println("Could not init database connection:", err)
+		return
 	}
 
+	defer db.Close()
 	transporter.RunOneMigrationDown(db)
 }
 `))

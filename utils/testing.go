@@ -12,9 +12,7 @@ import (
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 )
 
-type TestConfig struct {
-	Database map[string]string
-}
+type TestConfig map[string]map[string]string
 
 type TestMigration struct {
 	Identifier  int64
@@ -52,13 +50,14 @@ func SetupTestingFolders() {
 }
 
 func BuildTestConfigFile(base string) {
-	data := map[string]string{
-		"url":    os.Getenv("TEST_DATABASE_URL"),
-		"driver": "postgres",
+	data := TestConfig{
+		"development": {
+			"url":    os.Getenv("TEST_DATABASE_URL"),
+			"driver": "postgres",
+		},
 	}
 
-	config := TestConfig{data}
-	d, _ := yaml.Marshal(&config)
+	d, _ := yaml.Marshal(&data)
 
 	filepath := filepath.Join(base, "db", "config.yml")
 	ioutil.WriteFile(filepath, d, 0777)

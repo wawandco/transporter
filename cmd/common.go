@@ -11,6 +11,11 @@ import (
 	"github.com/wawandco/transporter/transporter"
 )
 
+type CmdTemplateData struct {
+	TempDir     string
+	Environment string
+}
+
 var sampleMigrations = []transporter.Migration{
 	transporter.Migration{
 		Identifier: transporter.MigrationIdentifier(),

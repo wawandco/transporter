@@ -157,20 +157,21 @@ func DatabaseVersion(db *sql.DB) string {
 }
 
 //DBConnection Returns a DB connection from the yml config file
-func DBConnection(ymlFile []byte) (*sql.DB, error) {
-	type Config struct {
-		Database map[string]string
-	}
-
-	var config Config
-	err := yaml.Unmarshal([]byte(ymlFile), &config)
+func DBConnection(ymlFile []byte, environment string) (*sql.DB, error) {
+	var connData map[string]map[string]string
+	err := yaml.Unmarshal([]byte(ymlFile), &connData)
 
 	if err != nil {
 		return nil, err
 	}
 
+	if connData[environment] == nil {
+		err = errors.New("Environment [" + environment + "] does not exist in your config.yml")
+		return nil, err
+	}
+
 	manager = &PostgreSQLManager{}
-	return sql.Open(config.Database["driver"], config.Database["url"])
+	return sql.Open(connData[environment]["driver"], connData[environment]["url"])
 }
 
 func dbTransaction(db *sql.DB) (*sql.Tx, error) {
