@@ -56,5 +56,19 @@ func init(){
 }
 ```
 
+
+#### Migrating your Heroku Database [TODO]
+
+Transporter supports you to add the DATABASE_URL environment variable, if you do, it will take the database connection url from there, otherwise it will take it from your `db/config.yml` file.
+
+If you need to run your migrations against your heroku database you could simply run:
+
+```sh
+$ DATABASE_URL=[YOUR_DATABASE_URL] transporter up
+```
+
+And Transporter will run against your heroku database instead of your development one.
+
+
 #### Copyright
 Transporter is Copyright © 2008-2015 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.
