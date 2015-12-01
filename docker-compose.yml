@@ -11,4 +11,4 @@ lib:
     - db:postgres.local
   environment:
     TRANS_TESTING_FOLDER: "/go/src/testing"
-    TEST_DATABASE_URL:   "user=postgres dbname=ttest sslmode=disable host=postgres.local" #postgres://:@:5432/ttest
+    TEST_DATABASE_URL:   "user=postgres dbname=ttest sslmode=disable host=postgres.local"
