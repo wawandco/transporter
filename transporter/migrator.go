@@ -44,6 +44,13 @@ func RunAllMigrationsUp(db *sql.DB) {
 	}
 
 	sort.Sort(ByIdentifier(migrations))
+
+	version := DatabaseVersion(db)
+	if len(migrations) > 0 && version == migrations[len(migrations)-1].GetID() {
+		log.Println("| No migrations to run, DB is on latest version. (" + version + ")")
+		return
+	}
+
 	var err error
 	for _, migration := range migrations {
 		// Check if migration is on the database already
@@ -57,7 +64,7 @@ func RunAllMigrationsUp(db *sql.DB) {
 		}
 	}
 
-	version := DatabaseVersion(db)
+	version = DatabaseVersion(db)
 	if err == nil && version != "" {
 		log.Println("| Done, new database version is " + version)
 	}
