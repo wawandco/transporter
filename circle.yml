@@ -1,10 +1,13 @@
 machine:
   environment:
     TRANSPORTER_DEP_FOLDER: "/home/ubuntu/.go_workspace/src/github.com/wawandco/transporter"
-    TRANS_TESTING_FOLDER: "/home/ubuntu/testing_folder"
-    TEST_DATABASE_URL:   "user=ubuntu dbname=circle_test sslmode=disable"
+    TRANS_TESTING_FOLDER:   "/home/ubuntu/testing_folder"
+    TEST_DATABASE_URL:        "user=ubuntu dbname=circle_test sslmode=disable"
+    POSTGRES_DATABASE_URL:    "user=ubuntu dbname=circle_test sslmode=disable"
+    MYSQL_DATABASE_URL:       "ubuntu:@tcp(localhost:3306)/circle_test"
   services:
     - postgresql
+    - mysql
 
 dependencies:
   override:
@@ -16,6 +19,7 @@ dependencies:
     - cp -R ./utils $TRANSPORTER_DEP_FOLDER/utils
     - cp -R ./cmd $TRANSPORTER_DEP_FOLDER/cmd
     - cp -R ./transporter $TRANSPORTER_DEP_FOLDER/transporter
+    - cp -R ./managers $TRANSPORTER_DEP_FOLDER/managers
 
 test:
   override:

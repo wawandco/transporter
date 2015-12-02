@@ -11,11 +11,6 @@ import (
 	"github.com/wawandco/transporter/utils"
 )
 
-func init() {
-	utils.ClearTestTables()
-	setupTestingEnv()
-}
-
 func TestInitCommand(t *testing.T) {
 	setupTestingEnv()
 	utils.ClearTestMigrations()

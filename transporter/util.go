@@ -2,31 +2,26 @@ package transporter
 
 import (
 	"database/sql"
-	"os"
 	"time"
+
+	"github.com/wawandco/transporter/utils"
 )
 
-func dropTables() {
-	db, _ := testConnection()
+func dropTables(driver string) {
+	db, _ := utils.BuildTestingConnection(driver)
 	db.Exec("DROP TABLE IF EXISTS  " + MigrationsTable + ";")
 	db.Exec("DROP TABLE IF EXISTS tests_table ;")
 }
 
-func createMigrationsTable() {
-	db, _ := testConnection()
-	db.Exec("CREATE TABLE IF NOT EXISTS  " + MigrationsTable + " ( identifier decimal NOT NULL );")
+func createMigrationsTable(driver string) {
+	db, _ := utils.BuildTestingConnection(driver)
+	query := manager.CreateMigrationsTableQuery(MigrationsTable)
+	db.Exec(query)
 }
 
 func CreateMigrationsTable(db *sql.DB) {
-	db.Exec("CREATE TABLE IF NOT EXISTS  " + MigrationsTable + " ( identifier decimal NOT NULL );")
-}
-
-func testConnection() (*sql.DB, error) {
-	url := os.Getenv("TEST_DATABASE_URL")
-	if url == "" {
-		url = "user=transporter dbname=transporter sslmode=disable"
-	}
-	return sql.Open("postgres", url)
+	query := manager.CreateMigrationsTableQuery(MigrationsTable)
+	db.Exec(query)
 }
 
 func MigrationIdentifier() int64 {

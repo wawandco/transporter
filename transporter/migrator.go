@@ -7,12 +7,18 @@ import (
 	"sort"
 	"strconv"
 
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
+	"github.com/wawandco/transporter/managers"
 )
 
 var migrations []Migration
-var manager DatabaseManager
+var manager managers.DatabaseManager
+var databaseManagers = map[string]managers.DatabaseManager{
+	"postgres": &managers.PostgreSQLManager{},
+	"mysql":    &managers.MySQLManager{},
+}
 
 const (
 	// MigrationsTable is the Db table where we will store migrations
@@ -177,7 +183,7 @@ func DBConnection(ymlFile []byte, environment string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	manager = &PostgreSQLManager{}
+	manager = databaseManagers[connData[environment]["driver"]]
 	return sql.Open(connData[environment]["driver"], connData[environment]["url"])
 }
 

@@ -7,7 +7,9 @@ import (
 	"os"
 	"os/exec"
 
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
+	"github.com/wawandco/transporter/managers"
 	"github.com/wawandco/transporter/transporter"
 )
 
@@ -36,6 +38,11 @@ var sampleMigrations = []transporter.Migration{
 			tx.Exec("ALTER table tests_table DROP COLUMN other;")
 		},
 	},
+}
+
+var mans = map[string]managers.DatabaseManager{
+	// "postgres": &managers.PostgreSQLManager{},
+	"mysql": &managers.MySQLManager{},
 }
 
 func exists(path string) (bool, error) {

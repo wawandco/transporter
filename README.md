@@ -13,7 +13,26 @@ To install Transporter please run `go get -u github.com/wawandco/transporter`, w
 Transporter supports the following DBMS's
 
 - postgresql
-- mysql [comming soon]
+
+  ```yml
+
+  development:
+    driver: postgres
+    url: "user=username dbname=my_db_development sslmode=disable"
+
+  ```
+
+- mysql
+
+  ```yml
+
+  development:
+    driver: mysql
+    url: "transporter:password@tcp(mysql.local:3306)/ttest"
+
+  ```
+
+
 
 #### Commands
 

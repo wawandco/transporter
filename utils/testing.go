@@ -7,6 +7,7 @@ import (
 	"os"
 	"path/filepath"
 	"strconv"
+	"strings"
 	"text/template"
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
@@ -26,12 +27,12 @@ var testingTables = []string{
 	"transporter_migrations",
 }
 
-func ClearTestTables() {
-	conn, _ := BuildTestingConnection()
+func ClearTestTables(driver string) {
+	conn, _ := BuildTestingConnection(driver)
 	defer conn.Close()
 
 	for _, t := range testingTables {
-		conn.Exec("DROP TABLE IF EXISTS  " + t + ";")
+		conn.Exec("DROP TABLE IF EXISTS  " + t)
 	}
 }
 
@@ -40,20 +41,22 @@ func ClearTestMigrations() {
 	os.RemoveAll(filepath.Join(base, "db"))
 }
 
-func SetupTestingFolders() {
+func SetupTestingFolders(driver string) {
 	base := os.Getenv("TRANS_TESTING_FOLDER")
 	os.Mkdir(filepath.Join(base), 0777)
 	os.Mkdir(filepath.Join(base, "db"), 0777)
 	os.Mkdir(filepath.Join(base, "db", "migrations"), 0777)
 
-	BuildTestConfigFile(base)
+	BuildTestConfigFile(base, driver)
 }
 
-func BuildTestConfigFile(base string) {
+func BuildTestConfigFile(base, driver string) {
+	url := os.Getenv(strings.ToUpper(driver) + "_DATABASE_URL")
+
 	data := TestConfig{
 		"development": {
-			"url":    os.Getenv("TEST_DATABASE_URL"),
-			"driver": "postgres",
+			"url":    url,
+			"driver": driver,
 		},
 	}
 
@@ -80,7 +83,7 @@ func GenerateMigrationFile(mig TestMigration) {
 	ioutil.WriteFile(path, buff.Bytes(), 0777)
 }
 
-func BuildTestingConnection() (*sql.DB, error) {
-	url := os.Getenv("TEST_DATABASE_URL")
-	return sql.Open("postgres", url)
+func BuildTestingConnection(driver string) (*sql.DB, error) {
+	url := os.Getenv(strings.ToUpper(driver) + "_DATABASE_URL")
+	return sql.Open(driver, url)
 }
