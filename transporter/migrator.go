@@ -15,6 +15,10 @@ import (
 
 var migrations []Migration
 var manager managers.DatabaseManager
+var databaseManagers = map[string]managers.DatabaseManager{
+	"postgres": &managers.PostgreSQLManager{},
+	"mysql":    &managers.MySQLManager{},
+}
 
 const (
 	// MigrationsTable is the Db table where we will store migrations
@@ -179,7 +183,7 @@ func DBConnection(ymlFile []byte, environment string) (*sql.DB, error) {
 		return nil, err
 	}
 
-	manager = &managers.PostgreSQLManager{}
+	manager = databaseManagers[connData[environment]["driver"]]
 	return sql.Open(connData[environment]["driver"], connData[environment]["url"])
 }
 

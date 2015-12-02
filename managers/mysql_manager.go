@@ -12,7 +12,7 @@ func (man *MySQLManager) DeleteMigrationQuery(tableName string, identifier strin
 }
 
 func (man *MySQLManager) AddMigrationQuery(tableName string, identifier string) string {
-	return "INSERT INTO " + tableName + " ( identifier ) VALUES (" + identifier + ")"
+	return "INSERT INTO " + tableName + " ( `identifier` ) VALUES (" + identifier + ")"
 }
 
 func (man *MySQLManager) DropMigrationsTableQuery(tableName string) string {
@@ -20,7 +20,7 @@ func (man *MySQLManager) DropMigrationsTableQuery(tableName string) string {
 }
 
 func (man *MySQLManager) CreateMigrationsTableQuery(tableName string) string {
-	return "CREATE TABLE IF NOT EXISTS " + tableName + " ( identifier BIGINT )"
+	return "CREATE TABLE IF NOT EXISTS " + tableName + " ( `identifier` BIGINT )"
 }
 
 func (man *MySQLManager) LastMigrationQuery(tableName string) string {

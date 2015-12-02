@@ -9,6 +9,7 @@ import (
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 	"github.com/wawandco/transporter/managers"
+	"github.com/wawandco/transporter/utils"
 )
 
 var sampleMigrations = []Migration{
@@ -53,7 +54,7 @@ func TestMigrationsTableDoesntExists(t *testing.T) {
 		manager = man
 		dropTables(name)
 
-		db, err := testConnection(name)
+		db, err := utils.BuildTestingConnection(name)
 		defer db.Close()
 		assert.Nil(t, err)
 		assert.False(t, MigrationsTableExists(db))
@@ -66,7 +67,7 @@ func TestMigrationsTableExists(t *testing.T) {
 		dropTables(name)
 		createMigrationsTable(name)
 
-		db, err := testConnection(name)
+		db, err := utils.BuildTestingConnection(name)
 		defer db.Close()
 		assert.Nil(t, err)
 		assert.True(t, MigrationsTableExists(db))
@@ -79,7 +80,7 @@ func TestRunMigrationUp(t *testing.T) {
 		dropTables(name)
 		createMigrationsTable(name)
 
-		db, _ := testConnection(name)
+		db, _ := utils.BuildTestingConnection(name)
 		defer db.Close()
 
 		m := sampleMigrations[0]
@@ -109,7 +110,7 @@ func TestRunMigrationDown(t *testing.T) {
 		dropTables(name)
 		createMigrationsTable(name)
 
-		db, _ := testConnection(name)
+		db, _ := utils.BuildTestingConnection(name)
 		defer db.Close()
 
 		m := sampleMigrations[0]
@@ -141,7 +142,7 @@ func TestRunOneMigrationDown(t *testing.T) {
 		dropTables(name)
 		createMigrationsTable(name)
 
-		db, _ := testConnection(name)
+		db, _ := utils.BuildTestingConnection(name)
 		defer db.Close()
 
 		migrations = []Migration{}
@@ -171,7 +172,7 @@ func TestRunAllMigrationsUp(t *testing.T) {
 		dropTables(name)
 		createMigrationsTable(name)
 
-		db, _ := testConnection(name)
+		db, _ := utils.BuildTestingConnection(name)
 		defer db.Close()
 
 		Register(sampleMigrations[0])
@@ -198,7 +199,7 @@ func TestRunAllMigrationsOnlyPending(t *testing.T) {
 		dropTables(name)
 		createMigrationsTable(name)
 
-		db, _ := testConnection(name)
+		db, _ := utils.BuildTestingConnection(name)
 		defer db.Close()
 
 		migrations = []Migration{}
