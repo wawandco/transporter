@@ -1,7 +1,10 @@
 postgres:
-  image: postgres
+  image: sameersbn/postgresql
   environment:
     LC_ALL: C.UTF-8
+    DB_NAME: ttest
+    DB_USER: transporter
+    DB_PASS: password
 
 mysql:
   image: mysql/mysql-server
@@ -11,7 +14,7 @@ mysql:
     MYSQL_USER:           transporter
     MYSQL_PASSWORD:       password
 
-lib:
+transporter:
   build: .
   volumes:
     - .:/go/src/github.com/wawandco/transporter
@@ -20,6 +23,5 @@ lib:
     - mysql:mysql.local
   environment:
     TRANS_TESTING_FOLDER:     "/go/src/testing"
-    TEST_DATABASE_URL:        "user=postgres dbname=ttest sslmode=disable host=postgres.local"
-    POSTGRES_DATABASE_URL:    "user=postgres dbname=ttest sslmode=disable host=postgres.local"
+    POSTGRES_DATABASE_URL:    "user=transporter password=password dbname=ttest sslmode=disable host=postgres.local"
     MYSQL_DATABASE_URL:       "transporter:password@tcp(mysql.local:3306)/ttest"
