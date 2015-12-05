@@ -51,7 +51,7 @@ func TestUpBadMigration(t *testing.T) {
 			utils.TestMigration{
 				Identifier:  transporter.MigrationIdentifier(),
 				UpCommand:   "Alter table shshshshs other_table add column o varchar(12);",
-				DownCommand: "",
+				DownCommand: "Drop column Wihii;",
 			},
 			utils.TestMigration{
 				Identifier:  transporter.MigrationIdentifier(),

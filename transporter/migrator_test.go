@@ -1,7 +1,6 @@
 package transporter
 
 import (
-	"database/sql"
 	"strconv"
 	"testing"
 
@@ -15,20 +14,20 @@ import (
 var sampleMigrations = []Migration{
 	Migration{
 		Identifier: MigrationIdentifier(),
-		Up: func(tx *sql.Tx) {
+		Up: func(tx *Tx) {
 			tx.Exec("CREATE TABLE tests_table (a varchar(12))")
 		},
-		Down: func(tx *sql.Tx) {
+		Down: func(tx *Tx) {
 			tx.Exec("DROP TABLE tests_table;")
 		},
 	},
 
 	Migration{
 		Identifier: MigrationIdentifier(),
-		Up: func(tx *sql.Tx) {
+		Up: func(tx *Tx) {
 			tx.Exec("ALTER table tests_table ADD COLUMN other varchar(20);")
 		},
-		Down: func(tx *sql.Tx) {
+		Down: func(tx *Tx) {
 			tx.Exec("ALTER table tests_table DROP COLUMN other;")
 		},
 	},

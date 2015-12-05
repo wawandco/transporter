@@ -9,8 +9,8 @@ import (
 type Migration struct {
 	Identifier int64
 	Name       string
-	Up         func(tx *sql.Tx)
-	Down       func(tx *sql.Tx)
+	Up         func(tx *Tx)
+	Down       func(tx *Tx)
 }
 
 //GetID Returns a string representation of the migration identifier.

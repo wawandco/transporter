@@ -6,17 +6,16 @@ import "text/template"
 const MigrationTemplate = `
 package migrations
 import (
-  "database/sql"
   "github.com/wawandco/transporter/transporter"
 )
 
 func init(){
   migration := transporter.Migration{
     Identifier: {{.Identifier}},
-    Up: func(tx *sql.Tx){
+    Up: func(tx *transporter.Tx){
       tx.Exec("{{.UpCommand}}")
     },
-    Down: func(tx *sql.Tx){
+    Down: func(tx *transporter.Tx){
       tx.Exec("{{.DownCommand}}")
     },
   }
