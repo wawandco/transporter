@@ -22,7 +22,7 @@ func Up(ctx *cli.Context) {
 
 	upTemplateData := MainData{
 		TempDir:     temp,
-		Environment: environment, //TODO: this should come from ctx or be development
+		Environment: environment,
 	}
 
 	commandArgs := utils.CopyMigrationFilesTo(temp)

@@ -65,7 +65,8 @@ func RunAllMigrationsUp(db *sql.DB) {
 			err = RunMigrationUp(db, &migration)
 
 			if err != nil {
-				log.Println("| Error: " + err.Error())
+				log.Println("| Could not complete your migration (" + migration.GetID() + "), please check your SQL.")
+				log.Println("| " + err.Error())
 				break
 			}
 		}
@@ -87,11 +88,11 @@ func RunMigrationUp(db *sql.DB, m *Migration) error {
 
 	if m.Up != nil {
 		m.Up(tx)
+		migerr := tx.err
 		err = tx.Commit()
 
-		if err != nil {
-			log.Println("| Error, Could not complete your migration (" + m.GetID() + "), please check your sql.")
-			return errors.New("Could not complete your migration (" + m.GetID() + "), please check your sql.")
+		if err != nil || migerr != nil {
+			return migerr
 		}
 
 		query := manager.AddMigrationQuery(MigrationsTable, m.GetID())
@@ -112,11 +113,11 @@ func RunMigrationDown(db *sql.DB, m *Migration) error {
 
 	if m.Down != nil {
 		m.Down(tx)
+		migerr := tx.err
 		err = tx.Commit()
 
-		if err != nil {
-			log.Println("| Error, Could not complete your migration (" + m.GetID() + "), please check your sql.")
-			return errors.New("Could not complete your migration (" + m.GetID() + "), please check your sql.")
+		if err != nil || migerr != nil {
+			return migerr
 		}
 		query := manager.DeleteMigrationQuery(MigrationsTable, m.GetID())
 		_, err = db.Exec(query)
@@ -151,6 +152,9 @@ func RunOneMigrationDown(db *sql.DB) {
 				} else {
 					log.Println("| Done, All existing migrations down.")
 				}
+			} else {
+				log.Println("| Could not rollback your migration (" + mig.GetID() + "), please check your SQL.")
+				log.Println("| " + err.Error())
 			}
 			break
 		}
@@ -171,6 +175,11 @@ func DatabaseVersion(db *sql.DB) string {
 	return identifier
 }
 
+//SetManager allows external entities like testing to set the driver as needed.
+func SetManager(man managers.DatabaseManager) {
+	manager = man
+}
+
 //DBConnection Returns a DB connection from the yml config file
 func DBConnection(ymlFile []byte, environment string) (*sql.DB, error) {
 	var connData map[string]map[string]string
@@ -189,11 +198,12 @@ func DBConnection(ymlFile []byte, environment string) (*sql.DB, error) {
 	return sql.Open(connData[environment]["driver"], connData[environment]["url"])
 }
 
-func dbTransaction(db *sql.DB) (*sql.Tx, error) {
-	tx, err := db.Begin()
+func dbTransaction(db *sql.DB) (*Tx, error) {
+	sqlTx, err := db.Begin()
 	if err != nil {
 		log.Println("| Error, could not initialize transaction")
 	}
 
+	tx := &Tx{sqlTx, nil}
 	return tx, err
 }

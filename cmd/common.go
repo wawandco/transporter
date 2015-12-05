@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"database/sql"
 	"io/ioutil"
 	"log"
 	"os"
@@ -23,28 +22,28 @@ type MainData struct {
 var sampleMigrations = []transporter.Migration{
 	transporter.Migration{
 		Identifier: transporter.MigrationIdentifier(),
-		Up: func(tx *sql.Tx) {
+		Up: func(tx *transporter.Tx) {
 			tx.Exec("Create table tests_table (a varchar);")
 		},
-		Down: func(tx *sql.Tx) {
+		Down: func(tx *transporter.Tx) {
 			tx.Exec("Drop table tests_table;")
 		},
 	},
 
 	transporter.Migration{
 		Identifier: transporter.MigrationIdentifier(),
-		Up: func(tx *sql.Tx) {
+		Up: func(tx *transporter.Tx) {
 			tx.Exec("ALTER table tests_table ADD COLUMN other varchar(20);")
 		},
-		Down: func(tx *sql.Tx) {
+		Down: func(tx *transporter.Tx) {
 			tx.Exec("ALTER table tests_table DROP COLUMN other;")
 		},
 	},
 }
 
 var mans = map[string]managers.DatabaseManager{
-	// "postgres": &managers.PostgreSQLManager{},
-	"mysql": &managers.MySQLManager{},
+	"postgres": &managers.PostgreSQLManager{},
+	"mysql":    &managers.MySQLManager{},
 }
 
 func exists(path string) (bool, error) {
