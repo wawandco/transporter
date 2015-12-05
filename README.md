@@ -67,10 +67,10 @@ import "github.com/wawandco/transporter/transporter"
 func init(){
   transporter.Register(&Migration{
     Identifier: 20151119112619,
-    Up:         func (txn *sql.Tx) {
+    Up:         func (txn *transporter.Tx) {
       txn.Exec("ALTER TABLE my_table ADD COLUMN new_column varchar(255);")
     },
-    Down:       func (txn *sql.Tx) {
+    Down:       func (txn *transporter.Tx) {
       txn.Exec("ALTER TABLE my_table DROP COLUMN new_column;")
     },
   })
