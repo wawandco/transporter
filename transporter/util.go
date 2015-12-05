@@ -19,11 +19,13 @@ func createMigrationsTable(driver string) {
 	db.Exec(query)
 }
 
+// CreateMigrationsTable creates the migrations table based on the driver specific sql.
 func CreateMigrationsTable(db *sql.DB) {
 	query := manager.CreateMigrationsTableQuery(MigrationsTable)
 	db.Exec(query)
 }
 
+//MigrationIdentifier returns a unixnano used to identify the order of the migration.
 func MigrationIdentifier() int64 {
 	return time.Now().UnixNano()
 }

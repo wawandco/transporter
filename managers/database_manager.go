@@ -1,6 +1,8 @@
 package managers
 
-//DatabaseManager is an interface defined for the database drivers we will use.
+//DatabaseManager is an interface defined for the database drivers we will use,
+//it basically contains the operations we will need to do on each DBMS, and some
+//times need specific sql code.
 type DatabaseManager interface {
 	AllMigrationsQuery(tableName string) string
 	DeleteMigrationQuery(tableName string, identifier string) string
