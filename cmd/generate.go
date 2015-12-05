@@ -13,31 +13,16 @@ import (
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/serenize/snaker"
-	"github.com/wawandco/transporter/transporter"
+	"github.com/wawandco/transporter/utils"
 )
 
-var migrationTPL = `
-package migrations
-import (
-  "database/sql"
-  "github.com/wawandco/transporter/transporter"
-)
-
-func init(){
-  migration := transporter.Migration{
-    Identifier: {{.Identifier}},
-    Up: func(tx *sql.Tx){
-      //you can use here tx.Exec to change your DB up
-    },
-    Down: func(tx *sql.Tx){
-      //you can use here tx.Exec to change your DB down
-    },
-  }
-
-  //Register the migration to run up or down acordingly.
-  transporter.Register(migration)
+//MigrationData is used to store migration data sent to the template.
+type MigrationData struct {
+	Identifier  int64
+	UpCommand   string
+	DownCommand string
+	Name        string
 }
-`
 
 //Generate generates a migration on the migrations folder
 func Generate(c *cli.Context) {
@@ -52,13 +37,13 @@ func Generate(c *cli.Context) {
 	name = snaker.CamelToSnake(name)
 	identifier := time.Now().UnixNano()
 
-	migration := transporter.Migration{
+	migration := MigrationData{
 		Identifier: identifier,
 		Name:       name,
 	}
 
 	buff := bytes.NewBufferString("")
-	tmpl, _ := template.New("migration").Parse(migrationTPL)
+	tmpl, _ := template.New("migration").Parse(utils.MigrationTemplate)
 	_ = tmpl.Execute(buff, migration)
 
 	fileName := strconv.FormatInt(identifier, 10) + "_" + name + ".go"

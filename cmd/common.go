@@ -6,14 +6,16 @@ import (
 	"log"
 	"os"
 	"os/exec"
-
+	//Driver for mysql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
+	//Driver for postgresql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/managers"
 	"github.com/wawandco/transporter/transporter"
 )
 
-type CmdTemplateData struct {
+//MainData is the data passed to generate the main.go when running Up and Down.
+type MainData struct {
 	TempDir     string
 	Environment string
 }

@@ -6,8 +6,9 @@ import (
 	"log"
 	"sort"
 	"strconv"
-
+	//Driver for mysql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
+	//Driver for postgresql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
@@ -125,7 +126,7 @@ func RunMigrationDown(db *sql.DB, m *Migration) error {
 	return errors.New("Migration (" + m.GetID() + ") doesn't have Down function defined.")
 }
 
-//DownOneMigration Run down last migration that have completed.
+//RunOneMigrationDown Run down last migration that have completed.
 func RunOneMigrationDown(db *sql.DB) {
 	if !MigrationsTableExists(db) {
 		CreateMigrationsTable(db)
@@ -157,6 +158,7 @@ func RunOneMigrationDown(db *sql.DB) {
 
 }
 
+//DatabaseVersion returns the latest database version.
 func DatabaseVersion(db *sql.DB) string {
 	query := manager.LastMigrationQuery(MigrationsTable)
 	rows, _ := db.Query(query)
