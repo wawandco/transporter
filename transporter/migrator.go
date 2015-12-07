@@ -204,6 +204,11 @@ func dbTransaction(db *sql.DB) (*Tx, error) {
 		log.Println("| Error, could not initialize transaction")
 	}
 
-	tx := &Tx{sqlTx, nil}
+	tx := &Tx{
+		Tx:      sqlTx,
+		Manager: manager,
+		err:     nil,
+	}
+
 	return tx, err
 }
