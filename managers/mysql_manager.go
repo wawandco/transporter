@@ -70,3 +70,8 @@ func (man *MySQLManager) ChangeColumnTypeQuery(tableName string, columnName stri
 func (man *MySQLManager) RenameColumnQuery(tableName string, columnName string, newName string) string {
 	return "SIGNAL SQLSTATE '78000' SET MESSAGE_TEXT = 'MySQL seems not to support table column renaming without passing the column type.';"
 }
+
+//RenameTableQuery is the implementation of how to change table name for this particular manager.
+func (man *MySQLManager) RenameTableQuery(tableName string, newName string) string {
+	return "RENAME TABLE " + tableName + " TO " + newName
+}

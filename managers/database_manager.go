@@ -16,6 +16,7 @@ type DatabaseManager interface {
 	DropColumnQuery(tableName string, columnName string) string
 	ChangeColumnTypeQuery(tableName string, columnName string, newType string) string
 	RenameColumnQuery(tableName string, columnName string, newName string) string
+	RenameTableQuery(tableName string, newName string) string
 }
 
 // Table is the type to define tables, basically is the column and its type.

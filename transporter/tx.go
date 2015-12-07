@@ -55,6 +55,12 @@ func (tx *Tx) RenameColumn(name string, columnName string, newName string) (sql.
 	return tx.execAndSaveErr(query)
 }
 
+// RenameColumn provides an interface to change columns names.
+func (tx *Tx) RenameTable(name string, newName string) (sql.Result, error) {
+	query := tx.Manager.RenameTableQuery(name, newName)
+	return tx.execAndSaveErr(query)
+}
+
 func (tx *Tx) execAndSaveErr(query string) (sql.Result, error) {
 	result, err := tx.Tx.Exec(query)
 

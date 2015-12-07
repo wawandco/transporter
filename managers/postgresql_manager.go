@@ -71,3 +71,8 @@ func (man *PostgreSQLManager) ChangeColumnTypeQuery(tableName string, columnName
 func (man *PostgreSQLManager) RenameColumnQuery(tableName string, columnName string, newName string) string {
 	return "ALTER TABLE " + tableName + " RENAME COLUMN " + columnName + " TO " + newName + ";"
 }
+
+//RenameTableQuery is the implementation of how to change table name for this particular manager.
+func (man *PostgreSQLManager) RenameTableQuery(tableName string, newName string) string {
+	return "ALTER TABLE " + tableName + " RENAME TO " + newName
+}
