@@ -77,6 +77,52 @@ func init(){
 }
 ```
 
+#### Commons operation functions
+
+As you may have noticed, there are some database operations we do fequently when creating and maintaining database migrations, we've added some functions to make your life easier :), you can use these as the following example shows:
+
+```go
+
+package migrations
+import "github.com/wawandco/transporter/transporter"
+
+func init(){
+  transporter.Register(&Migration{
+    Identifier: 20151119112619,
+    Up:         func (txn *transporter.Tx) {
+
+      //Instead of doing it this way:
+      txn.Exec("ALTER TABLE my_table ADD COLUMN new_column varchar(255);")
+
+      //You could simply do:
+      tx.AddColumn("my_table", "new_column", "varchar(255)") // And is equivalent
+
+    },
+    Down:       func (txn *transporter.Tx) {
+      txn.Exec("ALTER TABLE my_table DROP COLUMN new_column;")
+    },
+  })
+}
+```
+
+In we have provided the following other functions you could use the same manner
+
+```go
+
+tx.CreateTable("my_table", transporter.Table{
+   "old_column": "varchar(12)",
+}) // We will need to add this transporter.Table struct.
+
+tx.DropTable("my_table")
+tx.AddColumn("my_table", "new_column", "varchar(12)")
+tx.DropColumn("my_table", "new_column")
+tx.ChangeColumnType("my_table", "new_column", "varchar(12)")
+tx.RenameColumn("my_table", "new_column", "varchar(12)")
+tx.RenameTable("my_table", "other_table_name")
+
+```
+
+As usual, we're open to suggestions on common database operations, please let us know!.
 
 #### Multiple Environment support
 
