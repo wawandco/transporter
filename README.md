@@ -77,9 +77,9 @@ func init(){
 }
 ```
 
-#### Commons operation functions
+#### Common operation functions
 
-As you may have noticed, there are some database operations we do fequently when creating and maintaining database migrations, we've added some functions to make your life easier :), you can use these as the following example shows:
+As you may have noticed, there are some database operations we do frequently when creating and maintaining database migrations, we've added some functions to make your life easier :), you can use these as the following example shows:
 
 ```go
 
@@ -105,10 +105,9 @@ func init(){
 }
 ```
 
-In we have provided the following other functions you could use the same manner
+We have provided the following other functions you could use the same manner
 
 ```go
-
 tx.CreateTable("my_table", transporter.Table{
    "old_column": "varchar(12)",
 }) // We will need to add this transporter.Table struct.
