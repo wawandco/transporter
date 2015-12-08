@@ -6,6 +6,14 @@
 
 Transporter is a database migration tool (CLI), it helps you keep your databases in order by creating migration files, those migration files are Go files that run SQL commands on your database to keep multiple environments databases in sync on its structure.
 
+Features:
+
+- Allows you to keep your database environments sync'ed
+- You can run your migrations up and down as needed
+- Supports multiple DBMS
+- Provides functions for common database operations
+- You can run your own SQL
+
 #### Installation
 
 To install Transporter please run `go get -u github.com/wawandco/transporter`, with that, the transporter command should be available.
