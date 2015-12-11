@@ -6,7 +6,7 @@ import "text/template"
 const MigrationTemplate = `
 package migrations
 import (
-  "github.com/wawandco/transporter/transporter"
+  transporter "github.com/wawandco/transporter/core"
 )
 
 func init(){
@@ -32,7 +32,7 @@ package main
 import (
 	"log"
 	"path/filepath"
-	"github.com/wawandco/transporter/transporter"
+	transporter "github.com/wawandco/transporter/core"
 	"io/ioutil"
 )
 
@@ -58,7 +58,7 @@ package main
 import (
 	"log"
 	"path/filepath"
-	"github.com/wawandco/transporter/transporter"
+	transporter "github.com/wawandco/transporter/core"
 	"io/ioutil"
 )
 

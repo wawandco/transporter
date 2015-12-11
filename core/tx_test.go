@@ -1,4 +1,4 @@
-package transporter
+package core
 
 import (
 	"testing"

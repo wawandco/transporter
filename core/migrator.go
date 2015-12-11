@@ -1,4 +1,4 @@
-package transporter
+package core
 
 import (
 	"database/sql"
@@ -8,6 +8,8 @@ import (
 	"strconv"
 	"sync"
 
+	"github.com/apaganobeleno/pq"
+	"github.com/go-sql-driver/mysql"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
 )
@@ -18,19 +20,19 @@ func init() {
 	mu.Lock()
 	defer mu.Unlock()
 
-	// log.Println(sql.Drivers())
+	log.Println(sql.Drivers())
 	// log.Println(!driverRegistered("postgres"))
 	// log.Println(!driverRegistered("mysql"))
 
-	// if !driverRegistered("postgres") {
-	// 	log.Println("registering postgres")
-	// 	sql.Register("postgres", &pq.Driver{})
-	// }
-	//
-	// if !driverRegistered("mysql") {
-	// 	log.Println("registering mysql")
-	// 	sql.Register("mysql", &mysql.MySQLDriver{})
-	// }
+	if !driverRegistered("postgres") {
+		log.Println("registering postgres")
+		sql.Register("postgres", &pq.Driver{})
+	}
+
+	if !driverRegistered("mysql") {
+		log.Println("registering mysql")
+		sql.Register("mysql", &mysql.MySQLDriver{})
+	}
 }
 
 var migrations []Migration

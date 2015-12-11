@@ -7,7 +7,7 @@ import (
 	"os/exec"
 
 	"github.com/wawandco/transporter/managers"
-	"github.com/wawandco/transporter/transporter"
+	"github.com/wawandco/transporter/core"
 )
 
 //MainData is the data passed to generate the main.go when running Up and Down.
@@ -16,23 +16,23 @@ type MainData struct {
 	Environment string
 }
 
-var sampleMigrations = []transporter.Migration{
-	transporter.Migration{
-		Identifier: transporter.MigrationIdentifier(),
-		Up: func(tx *transporter.Tx) {
+var sampleMigrations = []core.Migration{
+	core.Migration{
+		Identifier: core.MigrationIdentifier(),
+		Up: func(tx *core.Tx) {
 			tx.Exec("Create table tests_table (a varchar);")
 		},
-		Down: func(tx *transporter.Tx) {
+		Down: func(tx *core.Tx) {
 			tx.Exec("Drop table tests_table;")
 		},
 	},
 
-	transporter.Migration{
-		Identifier: transporter.MigrationIdentifier(),
-		Up: func(tx *transporter.Tx) {
+	core.Migration{
+		Identifier: core.MigrationIdentifier(),
+		Up: func(tx *core.Tx) {
 			tx.Exec("ALTER table tests_table ADD COLUMN other varchar(20);")
 		},
-		Down: func(tx *transporter.Tx) {
+		Down: func(tx *core.Tx) {
 			tx.Exec("ALTER table tests_table DROP COLUMN other;")
 		},
 	},
