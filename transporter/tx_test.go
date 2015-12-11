@@ -221,10 +221,14 @@ func TestRenameTableMigration(t *testing.T) {
 		}
 
 		RunMigrationUp(db, &m)
-		_, err := db.Exec("SELECT other_column FROM tests_table")
-		assert.NotNil(t, err)
 
-		_, err = db.Exec("SELECT other_column FROM pthkkk_table")
-		assert.Nil(t, err)
+		if name != "mysql" {
+			_, err := db.Exec("SELECT other_column FROM tests_table")
+			assert.NotNil(t, err)
+
+			_, err = db.Exec("SELECT other_column FROM pthkkk_table")
+			assert.Nil(t, err)
+		}
+
 	}
 }

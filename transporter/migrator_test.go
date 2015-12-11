@@ -44,7 +44,7 @@ func TestRegister(t *testing.T) {
 		Identifier: MigrationIdentifier(),
 	}
 
-	Register(mig)
+	Add(mig)
 	assert.Equal(t, 1, len(migrations))
 }
 
@@ -147,7 +147,7 @@ func TestRunOneMigrationDown(t *testing.T) {
 		migrations = []Migration{}
 
 		m := sampleMigrations[0]
-		Register(m)
+		Add(m)
 		RunMigrationUp(db, &m)
 		RunOneMigrationDown(db)
 
@@ -174,8 +174,8 @@ func TestRunAllMigrationsUp(t *testing.T) {
 		db, _ := utils.BuildTestingConnection(name)
 		defer db.Close()
 
-		Register(sampleMigrations[0])
-		Register(sampleMigrations[1])
+		Add(sampleMigrations[0])
+		Add(sampleMigrations[1])
 		RunAllMigrationsUp(db)
 
 		_, err := db.Query("Select other from tests_table;")
@@ -203,8 +203,8 @@ func TestRunAllMigrationsOnlyPending(t *testing.T) {
 
 		migrations = []Migration{}
 
-		Register(sampleMigrations[0])
-		Register(sampleMigrations[1])
+		Add(sampleMigrations[0])
+		Add(sampleMigrations[1])
 
 		db.Query("INSERT INTO " + MigrationsTable + " VALUES (" + sampleMigrations[1].GetID() + ");")
 		RunAllMigrationsUp(db)

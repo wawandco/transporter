@@ -21,7 +21,7 @@ func init(){
   }
 
   //Register the migration to run up or down acordingly.
-  transporter.Register(migration)
+  transporter.Add(migration)
 }
 `
 

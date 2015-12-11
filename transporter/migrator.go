@@ -6,12 +6,14 @@ import (
 	"log"
 	"sort"
 	"strconv"
+
+	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
+	"github.com/wawandco/transporter/managers"
+
 	//Driver for mysql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
 	//Driver for postgresql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
-	"github.com/wawandco/transporter/managers"
 )
 
 var migrations []Migration
@@ -31,7 +33,7 @@ const (
 // the desired migration as needed.
 //
 // Register checks if migration attempted to be registered id is unique.
-func Register(m Migration) {
+func Add(m Migration) {
 	migrations = append(migrations, m)
 }
 

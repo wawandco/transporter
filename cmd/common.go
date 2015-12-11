@@ -5,10 +5,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	//Driver for mysql
-	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
-	//Driver for postgresql
-	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
+
 	"github.com/wawandco/transporter/managers"
 	"github.com/wawandco/transporter/transporter"
 )
