@@ -29,3 +29,12 @@ func CreateMigrationsTable(db *sql.DB) {
 func MigrationIdentifier() int64 {
 	return time.Now().UnixNano()
 }
+
+func driverRegistered(e string) bool {
+	for _, a := range sql.Drivers() {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
