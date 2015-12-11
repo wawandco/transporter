@@ -32,12 +32,15 @@ func MigrationIdentifier() int64 {
 }
 
 func driverRegistered(e string) bool {
+	result := false
+
 	for _, a := range sql.Drivers() {
 		if a == e {
 			log.Println("| Exists")
-			return true
-
+			result = true
+			break
 		}
 	}
-	return false
+
+	return result
 }
