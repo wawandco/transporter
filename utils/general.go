@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"regexp"
 	"strings"
 	"text/template"
 
@@ -37,9 +38,10 @@ func ReplaceInFile(file, base, replacement string) {
 	}
 
 	lines := strings.Split(string(input), "\n")
+	reg, err := regexp.Compile(base)
 
 	for i, line := range lines {
-		if line == base {
+		if reg.MatchString(line) {
 			lines[i] = replacement
 		}
 	}
@@ -62,7 +64,8 @@ func CopyMigrationFilesTo(tempFolder string) []string {
 	for _, file := range files {
 		commandArgs = append(commandArgs, filepath.Join(tempFolder, file.Name()))
 		copyrecur.CopyFile(filepath.Join(base, "db", "migrations", file.Name()), filepath.Join(tempFolder, file.Name()))
-		ReplaceInFile(filepath.Join(tempFolder, file.Name()), "package migrations", "package main")
+		ReplaceInFile(filepath.Join(tempFolder, file.Name()), "^package migrations$", "package main")
+		ReplaceInFile(filepath.Join(tempFolder, file.Name()), "^(.*)github.com/wawandco/transporter/core(.*)$", "  transporter \"github.com/wawandco/transporter/core\"")
 	}
 	return commandArgs
 }
