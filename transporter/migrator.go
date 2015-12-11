@@ -19,8 +19,8 @@ func init() {
 		sql.Register("postgres", &pq.Driver{})
 	}
 
-	if !driverRegistered("postgres") {
-		sql.Register("postgres", &mysql.MySQLDriver{})
+	if !driverRegistered("mysql") {
+		sql.Register("mysql", &mysql.MySQLDriver{})
 	}
 }
 
