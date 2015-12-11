@@ -16,14 +16,16 @@ import (
 
 func init() {
 	log.Println(sql.Drivers())
-	log.Println(!driverRegistered("postgres"))
-	log.Println(!driverRegistered("mysql"))
+	// log.Println(!driverRegistered("postgres"))
+	// log.Println(!driverRegistered("mysql"))
 
 	if !driverRegistered("postgres") {
+		log.Println("registering postgres")
 		sql.Register("postgres", &pq.Driver{})
 	}
 
 	if !driverRegistered("mysql") {
+		log.Println("registering mysql")
 		sql.Register("mysql", &mysql.MySQLDriver{})
 	}
 }
