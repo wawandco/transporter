@@ -15,6 +15,7 @@ import (
 )
 
 func init() {
+	log.Println(sql.Drivers())
 	if !driverRegistered("postgres") {
 		sql.Register("postgres", &pq.Driver{})
 	}
