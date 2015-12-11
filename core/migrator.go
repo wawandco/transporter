@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/apaganobeleno/pq"
-	"github.com/go-sql-driver/mysql"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/apaganobeleno/pq"
+	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
 )
