@@ -6,28 +6,31 @@ import (
 	"log"
 	"sort"
 	"strconv"
+	"sync"
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
-
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/apaganobeleno/pq"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
 )
 
+var mu sync.Mutex
+
 func init() {
-	log.Println(sql.Drivers())
+	mu.Lock()
+	defer mu.Unlock()
+
+	// log.Println(sql.Drivers())
 	// log.Println(!driverRegistered("postgres"))
 	// log.Println(!driverRegistered("mysql"))
 
-	if !driverRegistered("postgres") {
-		log.Println("registering postgres")
-		sql.Register("postgres", &pq.Driver{})
-	}
-
-	if !driverRegistered("mysql") {
-		log.Println("registering mysql")
-		sql.Register("mysql", &mysql.MySQLDriver{})
-	}
+	// if !driverRegistered("postgres") {
+	// 	log.Println("registering postgres")
+	// 	sql.Register("postgres", &pq.Driver{})
+	// }
+	//
+	// if !driverRegistered("mysql") {
+	// 	log.Println("registering mysql")
+	// 	sql.Register("mysql", &mysql.MySQLDriver{})
+	// }
 }
 
 var migrations []Migration

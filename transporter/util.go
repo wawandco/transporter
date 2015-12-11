@@ -2,7 +2,6 @@ package transporter
 
 import (
 	"database/sql"
-	"log"
 	"time"
 
 	"github.com/wawandco/transporter/utils"
@@ -36,7 +35,6 @@ func driverRegistered(e string) bool {
 
 	for _, a := range sql.Drivers() {
 		if a == e {
-			log.Println("| Exists")
 			result = true
 			break
 		}
