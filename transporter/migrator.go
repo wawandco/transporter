@@ -10,9 +10,7 @@ import (
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
 
-	//Driver for mysql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
-	//Driver for postgresql
 	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 )
 
@@ -28,7 +26,7 @@ const (
 	MigrationsTable = "transporter_migrations"
 )
 
-// Register function adds a migration to the migrations array
+// Add function adds a migration to the migrations array
 // So Transporter verifies if the migration is already completed or runs
 // the desired migration as needed.
 //

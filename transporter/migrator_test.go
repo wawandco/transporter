@@ -4,8 +4,6 @@ import (
 	"strconv"
 	"testing"
 
-	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
-	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
 	"github.com/wawandco/transporter/managers"
 	"github.com/wawandco/transporter/utils"
