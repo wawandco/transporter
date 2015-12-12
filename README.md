@@ -70,7 +70,7 @@ This is an example of a transporter Migration.
 
 ```go
 package migrations
-import "github.com/wawandco/transporter/transporter"
+import transporter "github.com/wawandco/transporter/core"
 
 func init(){
   transporter.Register(&Migration{
@@ -92,7 +92,7 @@ As you may have noticed, there are some database operations we do frequently whe
 ```go
 
 package migrations
-import "github.com/wawandco/transporter/transporter"
+import transporter "github.com/wawandco/transporter/core"
 
 func init(){
   transporter.Register(&Migration{

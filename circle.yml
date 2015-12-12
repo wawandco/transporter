@@ -18,7 +18,7 @@ dependencies:
     - cp -R ./Godeps $TRANSPORTER_DEP_FOLDER/Godeps
     - cp -R ./utils $TRANSPORTER_DEP_FOLDER/utils
     - cp -R ./cmd $TRANSPORTER_DEP_FOLDER/cmd
-    - cp -R ./transporter $TRANSPORTER_DEP_FOLDER/transporter
+    - cp -R ./core $TRANSPORTER_DEP_FOLDER/core
     - cp -R ./managers $TRANSPORTER_DEP_FOLDER/managers
 
 test:
