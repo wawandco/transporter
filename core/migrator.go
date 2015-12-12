@@ -7,8 +7,8 @@ import (
 	"sort"
 	"strconv"
 
-	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/lib/pq"
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
+	_ "github.com/wawandco/transporter/Godeps/_workspace/src/github.com/lib/pq"
 
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"

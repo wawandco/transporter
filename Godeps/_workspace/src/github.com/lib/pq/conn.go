@@ -34,15 +34,14 @@ var (
 	ErrCouldNotDetectUsername    = errors.New("pq: Could not detect default username. Please provide one explicitly.")
 )
 
-//Driver is the implementation of rhe sql driver
-type Driver struct{}
+type drv struct{}
 
-func (d *Driver) Open(name string) (driver.Conn, error) {
+func (d *drv) Open(name string) (driver.Conn, error) {
 	return Open(name)
 }
 
 func init() {
-	sql.Register("postgres", &Driver{})
+	sql.Register("postgres", &drv{})
 }
 
 type parameterStatus struct {
@@ -558,15 +557,13 @@ func (cn *conn) simpleQuery(q string) (res *rows, err error) {
 				cn.bad = true
 				errorf("unexpected message %q in simple query execution", t)
 			}
-			if res == nil {
-				res = &rows{
-					cn:       cn,
-					colNames: st.colNames,
-					colTyps:  st.colTyps,
-					colFmts:  st.colFmts,
-				}
+			res = &rows{
+				cn:       cn,
+				colNames: st.colNames,
+				colTyps:  st.colTyps,
+				colFmts:  st.colFmts,
+				done:     true,
 			}
-			res.done = true
 		case 'Z':
 			cn.processReadyForQuery(r)
 			// done
