@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"errors"
 	"log"
+	"math"
 	"sort"
 	"strconv"
 	"sync"
@@ -181,7 +182,11 @@ func RunOneMigrationDown(db *sql.DB) {
 //DatabaseVersion returns the latest database version.
 func DatabaseVersion(db *sql.DB) string {
 	query := manager.LastMigrationQuery(MigrationsTable)
-	rows, _ := db.Query(query)
+	rows, err := db.Query(query)
+	if err != nil {
+		return strconv.FormatInt(math.MaxInt64, 10)
+	}
+
 	var identifier string
 	for rows.Next() {
 		rows.Scan(&identifier)
