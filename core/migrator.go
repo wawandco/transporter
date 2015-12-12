@@ -184,6 +184,7 @@ func DatabaseVersion(db *sql.DB) string {
 	query := manager.LastMigrationQuery(MigrationsTable)
 	rows, err := db.Query(query)
 	if err != nil {
+		log.Println(err)
 		return strconv.FormatInt(math.MaxInt64, 10)
 	}
 
