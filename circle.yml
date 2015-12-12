@@ -24,4 +24,4 @@ dependencies:
 test:
   override:
     - go test ./cmd
-    - go test ./transporter
+    - go test ./core

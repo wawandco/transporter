@@ -6,28 +6,13 @@ import (
 	"log"
 	"sort"
 	"strconv"
-	"sync"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/apaganobeleno/pq"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
+	_ "github.com/lib/pq"
+
 	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
 )
-
-var mu sync.Mutex
-
-func init() {
-	mu.Lock()
-	defer mu.Unlock()
-
-	if !driverRegistered("postgres") {
-		sql.Register("postgres", &pq.Driver{})
-	}
-
-	if !driverRegistered("mysql") {
-		sql.Register("mysql", &mysql.MySQLDriver{})
-	}
-}
 
 var migrations []Migration
 var manager managers.DatabaseManager
