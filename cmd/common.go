@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/wawandco/transporter/managers"
 	"github.com/wawandco/transporter/core"
+	"github.com/wawandco/transporter/managers"
 )
 
 //MainData is the data passed to generate the main.go when running Up and Down.
@@ -41,6 +41,7 @@ var sampleMigrations = []core.Migration{
 var mans = map[string]managers.DatabaseManager{
 	"postgres": &managers.PostgreSQLManager{},
 	"mysql":    &managers.MySQLManager{},
+	"mariadb":  &managers.MariaDBManager{},
 }
 
 func exists(path string) (bool, error) {
