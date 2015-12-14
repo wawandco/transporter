@@ -42,6 +42,16 @@ Transporter supports the following DBMS's
 
   ```
 
+- mariadb
+
+  ```yml
+
+  development:
+    driver: mariadb
+    url: "transporter:password@tcp(mariadb.local:3306)/ttest"
+
+  ```
+
 
 
 #### Commands
