@@ -14,6 +14,15 @@ mysql:
     MYSQL_USER:           transporter
     MYSQL_PASSWORD:       password
 
+mariadb:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD:  password
+    MYSQL_DATABASE:       ttest
+    MYSQL_USER:           transporter
+    MYSQL_PASSWORD:       password
+
+
 transporter:
   build: .
   volumes:
@@ -21,7 +30,9 @@ transporter:
   links:
     - postgres:postgres.local
     - mysql:mysql.local
+    - mariadb:mariadb.local
   environment:
     TRANS_TESTING_FOLDER:     "/go/src/testing"
     POSTGRES_DATABASE_URL:    "user=transporter password=password dbname=ttest sslmode=disable host=postgres.local"
     MYSQL_DATABASE_URL:       "transporter:password@tcp(mysql.local:3306)/ttest"
+    MARIADB_DATABASE_URL:     "transporter:password@tcp(mariadb.local:3306)/ttest"

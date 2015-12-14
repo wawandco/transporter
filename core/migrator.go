@@ -29,6 +29,10 @@ func init() {
 	if !driverRegistered("mysql") {
 		sql.Register("mysql", &mysql.MySQLDriver{})
 	}
+
+	if !driverRegistered("mariadb") {
+		sql.Register("mariadb", &mysql.MySQLDriver{})
+	}
 }
 
 var migrations []Migration
@@ -36,6 +40,7 @@ var manager managers.DatabaseManager
 var databaseManagers = map[string]managers.DatabaseManager{
 	"postgres": &managers.PostgreSQLManager{},
 	"mysql":    &managers.MySQLManager{},
+	"mariadb":  &managers.MariaDBManager{},
 }
 
 const (
