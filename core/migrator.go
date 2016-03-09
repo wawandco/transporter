@@ -109,6 +109,8 @@ func RunMigrationUp(db *sql.DB, m *Migration) error {
 	}
 
 	if m.Up != nil {
+		log.Printf("| Running Migration %s UP", m.GetID())
+
 		m.Up(tx)
 		migerr := tx.err
 		err = tx.Commit()
@@ -134,6 +136,7 @@ func RunMigrationDown(db *sql.DB, m *Migration) error {
 	}
 
 	if m.Down != nil {
+		log.Printf("| Running Migration %s DOWN", m.GetID())
 		m.Down(tx)
 		migerr := tx.err
 		err = tx.Commit()
