@@ -19,4 +19,6 @@ dependencies:
 
 test:
   override:
-    - cd $TRANSPORTER_DEP_FOLDER && go test ./{cmd,core,managers}
+    - cd $TRANSPORTER_DEP_FOLDER
+    - go test ./cmd
+    - go test ./core
