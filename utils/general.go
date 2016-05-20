@@ -9,7 +9,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/crufter/copyrecur"
+	"github.com/crufter/copyrecur"
 )
 
 //WriteTemplateToFile writes a template result to a file.

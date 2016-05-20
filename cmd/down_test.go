@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/codegangsta/cli"
+	"github.com/stretchr/testify/assert"
 	transporter "github.com/wawandco/transporter/core"
 	"github.com/wawandco/transporter/utils"
 )

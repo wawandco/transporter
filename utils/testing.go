@@ -10,7 +10,7 @@ import (
 	"strings"
 	"text/template"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
+	"gopkg.in/yaml.v1"
 )
 
 type TestConfig map[string]map[string]string
