@@ -21,6 +21,7 @@ dependencies:
     - cp -R ./cmd $TRANSPORTER_DEP_FOLDER/cmd
     - cp -R ./core $TRANSPORTER_DEP_FOLDER/core
     - cp -R ./managers $TRANSPORTER_DEP_FOLDER/managers
+    - cp -R ./vendor $TRANSPORTER_DEP_FOLDER/vendor
 
 test:
   override:
