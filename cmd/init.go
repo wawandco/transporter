@@ -6,8 +6,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/gopkg.in/yaml.v1"
+	"github.com/codegangsta/cli"
+	"gopkg.in/yaml.v1"
 )
 
 const (

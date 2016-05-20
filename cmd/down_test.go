@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/stretchr/testify/assert"
+	"github.com/codegangsta/cli"
+	"github.com/stretchr/testify/assert"
 	transporter "github.com/wawandco/transporter/core"
 	"github.com/wawandco/transporter/utils"
 )
@@ -38,12 +38,12 @@ func TestDown(t *testing.T) {
 		con, _ := utils.BuildTestingConnection(dname)
 		defer con.Close()
 
-		_, err := con.Query("Select a from down_table")
+		_, err := con.Query("SELECT a FROM down_table")
 		assert.Nil(t, err)
 
 		Down(context)
 
-		_, err = con.Query("Select a from down_table")
+		_, err = con.Query("SELECT a FROM down_table")
 		log.Println(err)
 		assert.NotNil(t, err)
 	}

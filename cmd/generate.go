@@ -11,8 +11,8 @@ import (
 
 	"strconv"
 
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/codegangsta/cli"
-	"github.com/wawandco/transporter/Godeps/_workspace/src/github.com/serenize/snaker"
+	"github.com/codegangsta/cli"
+	"github.com/serenize/snaker"
 	"github.com/wawandco/transporter/utils"
 )
 
