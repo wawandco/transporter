@@ -38,12 +38,13 @@ func TestDown(t *testing.T) {
 		con, _ := utils.BuildTestingConnection(dname)
 		defer con.Close()
 
-		_, err := con.Query("Select a from down_table")
+		_, err := con.Query("SELECT a FROM down_table")
 		assert.Nil(t, err)
 
 		Down(context)
+		Down(context)
 
-		_, err = con.Query("Select a from down_table")
+		_, err = con.Query("SELECT a FROM down_table")
 		log.Println(err)
 		assert.NotNil(t, err)
 	}
