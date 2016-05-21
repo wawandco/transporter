@@ -9,11 +9,13 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/apaganobeleno/pq"
+	//Driver require to be loaded this way.
 	"github.com/go-sql-driver/mysql"
+	//Driver require to be loaded this way.
+	_ "github.com/lib/pq"
 
-	"gopkg.in/yaml.v1"
 	"github.com/wawandco/transporter/managers"
+	"gopkg.in/yaml.v1"
 )
 
 var mu sync.Mutex
@@ -21,10 +23,6 @@ var mu sync.Mutex
 func init() {
 	mu.Lock()
 	defer mu.Unlock()
-
-	if !driverRegistered("postgres") {
-		sql.Register("postgres", &pq.Driver{})
-	}
 
 	if !driverRegistered("mysql") {
 		sql.Register("mysql", &mysql.MySQLDriver{})
