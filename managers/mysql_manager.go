@@ -7,7 +7,7 @@ type MySQLManager struct{}
 
 //AllMigrationsQuery is the implementation of how to get all migrations for this particular manager.
 func (man *MySQLManager) AllMigrationsQuery(tableName string) string {
-	return "SELECT * FROM " + tableName
+	return "SELECT * FROM " + tableName + " ORDER BY identifier ASC"
 }
 
 //DeleteMigrationQuery is the implementation of how to delete a migration for this particular manager.

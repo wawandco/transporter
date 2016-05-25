@@ -47,7 +47,7 @@ func main() {
 	}
 
 	defer db.Close()
-	transporter.RunAllMigrationsUp(db)
+  transporter.RunMigrationsUp(db, {{.Count}})
 }
 `))
 
@@ -73,6 +73,6 @@ func main() {
 	}
 
 	defer db.Close()
-	transporter.RunOneMigrationDown(db)
+	transporter.RunMigrationsDown(db, {{.Count}})
 }
 `))

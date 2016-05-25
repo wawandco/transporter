@@ -10,6 +10,10 @@ import (
 
 //Down is the command runt when you do `tranporter down` on your CLI.
 func Down(ctx *cli.Context) {
+	if Count == -1 {
+		Count = 1 //Default value for Down, one migration
+	}
+
 	temp := buildTempFolder()
 	defer os.RemoveAll(temp)
 
@@ -23,6 +27,7 @@ func Down(ctx *cli.Context) {
 	downTemplateData := MainData{
 		TempDir:     temp,
 		Environment: environment,
+		Count:       Count,
 	}
 
 	commandArgs := utils.CopyMigrationFilesTo(temp)

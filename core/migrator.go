@@ -64,6 +64,10 @@ func MigrationsTableExists(db *sql.DB) bool {
 
 //RunAllMigrationsUp runs pending migrations and stores migration on the migrations table.
 func RunAllMigrationsUp(db *sql.DB) {
+	RunMigrationsUp(db, -1)
+}
+
+func RunMigrationsUp(db *sql.DB, count int) {
 
 	//1. Migrations table exists? -> Create if needed
 	if !MigrationsTableExists(db) {
@@ -79,7 +83,12 @@ func RunAllMigrationsUp(db *sql.DB) {
 	}
 
 	var err error
+	var migrationsRunt int
 	for _, migration := range migrations {
+		if migrationsRunt >= count && count != -1 {
+			break
+		}
+
 		// Check if migration is on the database already
 		if migration.Pending(db) {
 			err = RunMigrationUp(db, &migration)
@@ -90,6 +99,8 @@ func RunAllMigrationsUp(db *sql.DB) {
 				break
 			}
 		}
+
+		migrationsRunt = migrationsRunt + 1
 	}
 
 	version = DatabaseVersion(db)
@@ -181,6 +192,58 @@ func RunOneMigrationDown(db *sql.DB) {
 			}
 			break
 		}
+	}
+
+}
+
+//RunMigrationsDown Run down last migration that have completed.
+func RunMigrationsDown(db *sql.DB, count int) {
+	if !MigrationsTableExists(db) {
+		CreateMigrationsTable(db)
+	}
+
+	sort.Sort(ByIdentifier(migrations))
+
+	var lenM = len(migrations)
+	var reversed = make([]Migration, lenM)
+
+	for i, migration := range migrations {
+		reversed[len(migrations)-1-i] = migration
+	}
+
+	dbVersion := DatabaseVersion(db)
+	if dbVersion == "" {
+		log.Println("| Sorry, there are no migrations to run back")
+	}
+
+	var runt = 0
+	for _, mig := range reversed {
+
+		if mig.GetID() > dbVersion {
+			continue
+		}
+
+		if runt >= count && count > 0 {
+			break
+		}
+
+		log.Printf("| Running %v back", mig.GetID())
+		err := RunMigrationDown(db, &mig)
+
+		if err == nil {
+			version := DatabaseVersion(db)
+			if version != "" {
+				log.Printf("| Done, new database version is %v.", version)
+			} else {
+				log.Println("| Done, All existing migrations down.")
+			}
+		} else {
+			log.Printf("| Could not rollback your migration (%v), please check your SQL.", mig.GetID())
+			log.Printf("| %v", err.Error())
+			break
+		}
+
+		runt = runt + 1
 	}
 
 }

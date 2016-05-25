@@ -7,7 +7,7 @@ type MariaDBManager struct{}
 
 //AllMigrationsQuery is the implementation of how to get all migrations for this particular manager.
 func (man *MariaDBManager) AllMigrationsQuery(tableName string) string {
-	return "SELECT * FROM " + tableName
+	return "SELECT * FROM " + tableName + " ORDER BY identifier ASC"
 }
 
 //DeleteMigrationQuery is the implementation of how to delete a migration for this particular manager.

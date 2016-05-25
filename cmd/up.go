@@ -23,6 +23,7 @@ func Up(ctx *cli.Context) {
 	upTemplateData := MainData{
 		TempDir:     temp,
 		Environment: environment,
+		Count:       Count,
 	}
 
 	commandArgs := utils.CopyMigrationFilesTo(temp)

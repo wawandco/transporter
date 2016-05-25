@@ -21,7 +21,7 @@ func (m *Migration) GetID() string {
 //Pending returns if a particular migration is pending.
 // TODO: move it to be vendor specific inside the managers.
 func (m *Migration) Pending(db *sql.DB) bool {
-	rows, _ := db.Query("Select * from " + MigrationsTable + " WHERE identifier =" + m.GetID())
+	rows, _ := db.Query("SELECT * FROM " + MigrationsTable + " WHERE identifier =" + m.GetID())
 	defer rows.Close()
 	count := 0
 

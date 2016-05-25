@@ -10,10 +10,14 @@ import (
 	"github.com/wawandco/transporter/managers"
 )
 
+//Count sets the number of migrations to run up and down
+var Count = -1
+
 //MainData is the data passed to generate the main.go when running Up and Down.
 type MainData struct {
 	TempDir     string
 	Environment string
+	Count       int
 }
 
 var sampleMigrations = []core.Migration{

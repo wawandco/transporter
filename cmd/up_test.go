@@ -37,6 +37,35 @@ func TestUp(t *testing.T) {
 	}
 }
 
+func TestUpWithCount(t *testing.T) {
+	for dname := range mans {
+		utils.ClearTestTables(dname)
+		utils.ClearTestMigrations()
+		utils.SetupTestingFolders(dname)
+
+		utils.GenerateMigrationFiles([]utils.TestMigration{
+			utils.TestMigration{
+				Identifier: transporter.MigrationIdentifier(),
+				UpCommand:  "CREATE TABLE other_table (a varchar(255));",
+			},
+			utils.TestMigration{
+				Identifier: transporter.MigrationIdentifier(),
+				UpCommand:  "DROP TABLE other_table;",
+			},
+		})
+
+		flagset := flag.FlagSet{}
+		flagset.IntVar(&Count, "count", 1, "Defines the number of migrations to run")
+
+		context := cli.NewContext(nil, &flagset, nil)
+		Up(context)
+
+		con, _ := utils.BuildTestingConnection(dname)
+		_, err := con.Query("Select * from other_table;")
+		assert.Nil(t, err)
+	}
+}
+
 func TestUpBadMigration(t *testing.T) {
 	for dname := range mans {
 		utils.ClearTestTables(dname)
