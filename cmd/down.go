@@ -4,7 +4,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 	"github.com/wawandco/transporter/utils"
 )
 
@@ -26,7 +26,13 @@ func Down(ctx *cli.Context) {
 	}
 
 	commandArgs := utils.CopyMigrationFilesTo(temp)
-	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), utils.DownTemplate, downTemplateData)
+	template := utils.DownTemplate
+
+	if DatabaseURL != "" {
+		template = utils.DownFlagsTemplate
+	}
+
+	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), template, downTemplateData)
 
 	commandArgs = append(commandArgs, main)
 	runTempFiles(commandArgs)

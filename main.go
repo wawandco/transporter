@@ -3,12 +3,27 @@ package main
 import (
 	"os"
 
-	"github.com/codegangsta/cli"
+	"github.com/urfave/cli"
 	"github.com/wawandco/transporter/cmd"
 )
 
 func main() {
 	app := cli.NewApp()
+
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:        "database, d",
+			Usage:       "Database URL",
+			Destination: &cmd.DatabaseURL,
+		},
+
+		cli.StringFlag{
+			Name:        "driver, i",
+			Usage:       "Database driver name",
+			Destination: &cmd.DriverName,
+		},
+	}
+
 	app.Name = "transporter"
 	app.Commands = []cli.Command{
 		{
