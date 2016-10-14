@@ -12,14 +12,14 @@ func main() {
 
 	app.Flags = []cli.Flag{
 		cli.StringFlag{
-			Name:  "database, d",
-			Usage: "Database URL",
+			Name:        "database, d",
+			Usage:       "Database URL",
 			Destination: &cmd.DatabaseURL,
 		},
 
 		cli.StringFlag{
-			Name:  "driver, i",
-			Usage: "Database driver name",
+			Name:        "driver, i",
+			Usage:       "Database driver name",
 			Destination: &cmd.DriverName,
 		},
 	}
@@ -43,7 +43,6 @@ func main() {
 			Aliases: []string{},
 			Usage:   "transporter up",
 			Action:  cmd.Up,
-			Flags
 		},
 		{
 			Name:    "down",

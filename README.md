@@ -165,8 +165,15 @@ production:
   url: "user=username dbname=my_db_production"
 
 ```
-
 And call `transporter up staging` or `transporter down staging` or any other environment's database you would like to run the migrations against.
+
+### Flags Support
+
+In some scenarios you won't want to persist credentials to your database inside the source code, in that case you can specify the database url and driver by using parameters for the transporter command.
+
+```bash
+transporter --database="user=username dbname=my_db_development sslmode=disable" --driver=postgres up 
+```
 
 #### Developer Setup
 
