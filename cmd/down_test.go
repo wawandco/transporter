@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/codegangsta/cli"
 	"github.com/stretchr/testify/assert"
+	"github.com/urfave/cli"
 	transporter "github.com/wawandco/transporter/core"
 	"github.com/wawandco/transporter/utils"
 )

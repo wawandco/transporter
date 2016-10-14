@@ -1,6 +1,6 @@
-[![Coverage](http://gocover.io/_badge/github.com/codegangsta/cli?0)](http://gocover.io/github.com/codegangsta/cli)
-[![Build Status](https://travis-ci.org/codegangsta/cli.png?branch=master)](https://travis-ci.org/codegangsta/cli)
-[![GoDoc](https://godoc.org/github.com/codegangsta/cli?status.svg)](https://godoc.org/github.com/codegangsta/cli)
+[![Coverage](http://gocover.io/_badge/github.com/urfave/cli?0)](http://gocover.io/github.com/urfave/cli)
+[![Build Status](https://travis-ci.org/urfave/cli.png?branch=master)](https://travis-ci.org/urfave/cli)
+[![GoDoc](https://godoc.org/github.com/urfave/cli?status.svg)](https://godoc.org/github.com/urfave/cli)
 
 # cli.go
 `cli.go` is simple, fast, and fun package for building command line apps in Go. The goal is to enable developers to write fast and distributable command line applications in an expressive way.
@@ -15,7 +15,7 @@ Make sure you have a working Go environment (go 1.1+ is *required*). [See the in
 
 To install `cli.go`, simply run:
 ```
-$ go get github.com/codegangsta/cli
+$ go get github.com/urfave/cli
 ```
 
 Make sure your `PATH` includes to the `$GOPATH/bin` directory so your commands can be easily used:
@@ -31,7 +31,7 @@ package main
 
 import (
   "os"
-  "github.com/codegangsta/cli"
+  "github.com/urfave/cli"
 )
 
 func main() {
@@ -46,7 +46,7 @@ package main
 
 import (
   "os"
-  "github.com/codegangsta/cli"
+  "github.com/urfave/cli"
 )
 
 func main() {
@@ -74,7 +74,7 @@ package main
 
 import (
   "os"
-  "github.com/codegangsta/cli"
+  "github.com/urfave/cli"
 )
 
 func main() {
@@ -184,7 +184,7 @@ app.Action = func(c *cli.Context) {
 ...
 ```
 
-See full list of flags at http://godoc.org/github.com/codegangsta/cli
+See full list of flags at http://godoc.org/github.com/urfave/cli
 
 #### Alternate Names
 
@@ -336,6 +336,6 @@ to the name of their program (as above).
 ## Contribution Guidelines
 Feel free to put up a pull request to fix a bug or maybe add a feature. I will give it a code review and make sure that it does not break backwards compatibility. If I or any other collaborators agree that it is in line with the vision of the project, we will work with you to get the code into a mergeable state and merge it into the master branch.
 
-If you have contributed something significant to the project, I will most likely add you as a collaborator. As a collaborator you are given the ability to merge others pull requests. It is very important that new code does not break existing code, so be careful about what code you do choose to merge. If you have any questions feel free to link @codegangsta to the issue in question and we can review it together.
+If you have contributed something significant to the project, I will most likely add you as a collaborator. As a collaborator you are given the ability to merge others pull requests. It is very important that new code does not break existing code, so be careful about what code you do choose to merge. If you have any questions feel free to link @urfave to the issue in question and we can review it together.
 
-If you feel like you have contributed to the project but have not yet been added as a collaborator, I probably forgot to add you. Hit @codegangsta up over email and we will get it figured out.
+If you feel like you have contributed to the project but have not yet been added as a collaborator, I probably forgot to add you. Hit @urfave up over email and we will get it figured out.

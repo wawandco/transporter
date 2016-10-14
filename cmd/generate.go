@@ -11,8 +11,8 @@ import (
 
 	"strconv"
 
-	"github.com/codegangsta/cli"
 	"github.com/serenize/snaker"
+	"github.com/urfave/cli"
 	"github.com/wawandco/transporter/utils"
 )
 
