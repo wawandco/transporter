@@ -226,6 +226,12 @@ func DBConnection(ymlFile []byte, environment string) (*sql.DB, error) {
 	return sql.Open(connData[environment]["driver"], connData[environment]["url"])
 }
 
+//DBConnection Returns a DB connection from the yml config file
+func DBConnectionWith(databaseURL, driver string) (*sql.DB, error) {
+	manager = databaseManagers[driver]
+	return sql.Open(driver, databaseURL)
+}
+
 func dbTransaction(db *sql.DB) (*Tx, error) {
 	sqlTx, err := db.Begin()
 	if err != nil {

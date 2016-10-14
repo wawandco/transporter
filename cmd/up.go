@@ -8,6 +8,9 @@ import (
 	"github.com/wawandco/transporter/utils"
 )
 
+var DatabaseURL string
+var DriverName string
+
 //Up is the command runt when you do `tranporter up` on your CLI.
 func Up(ctx *cli.Context) {
 	temp := buildTempFolder()
@@ -21,13 +24,20 @@ func Up(ctx *cli.Context) {
 	}
 
 	upTemplateData := MainData{
-		TempDir:     temp,
-		Environment: environment,
+		TempDir:        temp,
+		Environment:    environment,
+		DatabaseURL:    DatabaseURL,
+		DatabaseDriver: DriverName,
 	}
 
+	template := utils.UpTemplate
 	commandArgs := utils.CopyMigrationFilesTo(temp)
-	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), utils.UpTemplate, upTemplateData)
 
+	if DatabaseURL != "" {
+		template = utils.UpFlagsTemplate
+	}
+
+	main, _ := utils.WriteTemplateToFile(filepath.Join(temp, "main.go"), template, upTemplateData)
 	commandArgs = append(commandArgs, main)
 	runTempFiles(commandArgs)
 }

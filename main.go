@@ -9,6 +9,21 @@ import (
 
 func main() {
 	app := cli.NewApp()
+
+	app.Flags = []cli.Flag{
+		cli.StringFlag{
+			Name:  "database, d",
+			Usage: "Database URL",
+			Destination: &cmd.DatabaseURL,
+		},
+
+		cli.StringFlag{
+			Name:  "driver, i",
+			Usage: "Database driver name",
+			Destination: &cmd.DriverName,
+		},
+	}
+
 	app.Name = "transporter"
 	app.Commands = []cli.Command{
 		{
@@ -28,6 +43,7 @@ func main() {
 			Aliases: []string{},
 			Usage:   "transporter up",
 			Action:  cmd.Up,
+			Flags
 		},
 		{
 			Name:    "down",

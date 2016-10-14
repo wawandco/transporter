@@ -22,8 +22,7 @@ mariadb:
     MYSQL_USER:           transporter
     MYSQL_PASSWORD:       password
 
-
-transporter:
+lib:
   build: .
   volumes:
     - .:/go/src/github.com/wawandco/transporter

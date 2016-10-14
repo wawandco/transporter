@@ -51,6 +51,31 @@ func main() {
 }
 `))
 
+var UpFlagsTemplate = template.Must(template.New("up.flags.template").Parse(`
+package main
+
+import (
+	"log"
+	transporter "github.com/wawandco/transporter/core"
+)
+
+func main() {
+	databaseURL := "{{.DatabaseURL}}"
+	databaseDriver := "{{.DatabaseDriver}}"
+	
+	log.Println("| Running Migrations UP")
+	db, err := transporter.DBConnectionWith( databaseURL, databaseDriver )
+
+	if err != nil {
+		log.Println("Could not init database connection:", err)
+		return
+	}
+
+	defer db.Close()
+	transporter.RunAllMigrationsUp(db)
+}
+`))
+
 //DownTemplate is the template for the main.go file when running Down cmd.
 var DownTemplate = template.Must(template.New("down.main.template").Parse(`
 package main
@@ -66,6 +91,32 @@ func main() {
 	log.Println("| Running Migrations Down on [{{.Environment}}] environment")
 	dat, _ := ioutil.ReadFile(filepath.Join("{{.TempDir}}","config.yml"))
 	db, err := transporter.DBConnection(dat, "{{.Environment}}")
+
+	if err != nil {
+		log.Println("Could not init database connection:", err)
+		return
+	}
+
+	defer db.Close()
+	transporter.RunOneMigrationDown(db)
+}
+`))
+
+//UpTemplate is the template for the Main when cmd.Up runs.
+var DownFlagsTemplate = template.Must(template.New("up.main.template").Parse(`
+package main
+
+import (
+	"log"
+	transporter "github.com/wawandco/transporter/core"
+)
+
+func main() {
+	databaseURL := "{{.DatabaseURL}}"
+	databaseDriver := "{{.DatabaseDriver}}"
+	
+	log.Println("| Running Migrations Down")
+	db, err := transporter.DBConnectionWith( databaseURL, databaseDriver )
 
 	if err != nil {
 		log.Println("Could not init database connection:", err)
